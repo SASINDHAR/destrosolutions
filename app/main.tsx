@@ -3,7 +3,7 @@ import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App, { routeInfo } from './page';
 import './globals.css';
-const path = window.location.pathname.replace(/\/$/,'') || '/';
+const path = currentPath();
 const info = routeInfo[path];
 if (info) { document.title = info[0] + ' | DestroSolutions'; document.querySelector('meta[name="description"]')?.setAttribute('content',info[1]); }
 const root = document.getElementById('root')!;
