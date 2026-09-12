@@ -69,11 +69,9 @@ export default function IndustryCompare({
           </div>
         ))}
       </div>
-      <div
+      <section
         className="compare-table-region"
-        role="region"
         aria-label="Industry comparison"
-        tabIndex={0}
       >
         <Table className="compare-table">
           <TableHeader>
@@ -88,13 +86,15 @@ export default function IndustryCompare({
             <TableRow>
               <TableCell>Product landscape</TableCell>
               {chosen.map((i, n) => (
-                <TableCell key={n}>{i.description}</TableCell>
+                <TableCell key={n} data-label={i.name}>
+                  {i.description}
+                </TableCell>
               ))}
             </TableRow>
             <TableRow>
               <TableCell>Security priorities</TableCell>
               {chosen.map((i, n) => (
-                <TableCell key={n}>
+                <TableCell key={n} data-label={i.name}>
                   <ul>
                     {i.priorities.map((p) => (
                       <li key={p}>{p}</li>
@@ -106,7 +106,7 @@ export default function IndustryCompare({
             <TableRow>
               <TableCell>Relevant frameworks</TableCell>
               {chosen.map((i, n) => (
-                <TableCell key={n}>
+                <TableCell key={n} data-label={i.name}>
                   <div className="compare-tags">
                     {i.frameworks.map((f) => (
                       <span key={f}>{f}</span>
@@ -118,7 +118,7 @@ export default function IndustryCompare({
             <TableRow>
               <TableCell>Explore the solution</TableCell>
               {chosen.map((i, n) => (
-                <TableCell key={n}>
+                <TableCell key={n} data-label={i.name}>
                   <a
                     className="text-link"
                     href={sitePath('/solutions/' + i.slug)}
@@ -130,7 +130,7 @@ export default function IndustryCompare({
             </TableRow>
           </TableBody>
         </Table>
-      </div>
+      </section>
       <p className="compare-note">
         <Layers3 size={16} />
         Framework applicability depends on your product and operating context;

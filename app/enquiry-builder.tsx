@@ -23,6 +23,10 @@ export default function EnquiryBuilder() {
       chosenIndustry &&
       [
         'Automotive',
+        'Industrial',
+        'Robotics',
+        'Connected Products',
+        'Mobility',
         'Aviation',
         'Railway',
         'Maritime',
@@ -34,6 +38,7 @@ export default function EnquiryBuilder() {
         'Other',
       ].includes(chosenIndustry)
     )
+      // eslint-disable-next-line react/react-compiler -- Apply URL context after hydration so the first client render matches the static HTML.
       setIndustry(chosenIndustry);
     if (
       chosenPriority &&
@@ -111,6 +116,10 @@ export default function EnquiryBuilder() {
               >
                 {[
                   'Automotive',
+                  'Industrial',
+                  'Robotics',
+                  'Connected Products',
+                  'Mobility',
                   'Aviation',
                   'Railway',
                   'Maritime',
@@ -162,9 +171,7 @@ export default function EnquiryBuilder() {
           <button type="submit" className="button">
             Open email draft <ArrowUpRight size={18} />
           </button>
-          <p role="status" className="enquiry-status">
-            {status}
-          </p>
+          <output className="enquiry-status">{status}</output>
         </form>
         <div className="enquiry-preview">
           <div className="enquiry-preview-top">

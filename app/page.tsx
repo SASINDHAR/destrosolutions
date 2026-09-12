@@ -1,1387 +1,1123 @@
-import SiteSearch from './site-search';
-import IndustryCompare from './industry-compare';
-import EnquiryBuilder from './enquiry-builder';
-import { sitePath } from './site-path';
-
 import {
   ArrowUpRight,
   ArrowRight,
   ShieldCheck,
-  Network,
   Cpu,
+  Network,
   Layers3,
-  ScanLine,
-  Check,
-  Menu,
-  Car,
-  Plane,
-  TrainFront,
-  Ship,
   Radio,
-  CircleDot,
-  ChevronRight,
+  Car,
+  Factory,
+  Bot,
+  Box,
+  Zap,
+  Globe,
+  GraduationCap,
 } from 'lucide-react';
+import { sitePath } from './site-path';
 import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetTitle,
-  SheetDescription,
-} from '@/components/ui/sheet';
-import PlatformExplorer from './platform-explorer';
-import SecurityDiagram from './security-diagram';
-const live = 'https://www.destrosolutions.com';
-const navigation = [
-  ['Platform', '/product'],
-  ['Capabilities', '/features'],
-  ['Solutions', '/solutions'],
-  ['Use cases', '/use-cases'],
-  ['Resources', live + '/blog'],
-];
-function Brand() {
+  routeInfo,
+  industries,
+  solutions,
+  courses,
+  technologies,
+  scenarios,
+  articles,
+  contact,
+} from './content';
+import {
+  Header,
+  Footer,
+  CTA,
+  Section,
+  Eyebrow,
+  LinkButton,
+  PageHero,
+  CommandDiagram,
+  Pillars,
+  Flow,
+  PlatformArchitecture,
+  DashboardPreview,
+  ThreatFlow,
+  AgentWorkflow,
+  SecurityOperations,
+  Motion,
+} from './experience';
+import EnquiryBuilder from './enquiry-builder';
+import IndustryCompare from './industry-compare';
+export { routeInfo } from './content';
+function Home() {
   return (
-    <a className="brand" href={sitePath('/')} aria-label="DestroSolutions home">
-      <span className="brand-icon">
-        <ShieldCheck size={23} />
-      </span>
-      <span>
-        destro<span className="brand-light">solutions</span>
-        <span className="brand-dot">.</span>
-      </span>
-    </a>
-  );
-}
-function Header({ path = '/' }: { path?: string }) {
-  return (
-    <header className="header">
-      <div className="container header-inner">
-        <Brand />
-        <nav className="desktop-nav" aria-label="Main navigation">
-          {navigation.map(([n, h]) => (
-            <a
-              href={sitePath(h)}
-              key={n}
-              aria-current={
-                path === h ||
-                (h === '/solutions' && path.startsWith('/solutions/'))
-                  ? 'page'
-                  : undefined
-              }
-            >
-              {n}
-            </a>
-          ))}
-          <a href={live + '/training'}>
-            Training <ArrowUpRight size={12} />
-          </a>
-        </nav>
-        <a className="button small header-cta" href={sitePath('/contact')}>
-          Book a demo <ArrowUpRight size={16} />
-        </a>
-        <SiteSearch entries={Object.entries(routeInfo)} />
-        <Sheet>
-          <SheetTrigger className="mobile-menu" aria-label="Open navigation">
-            <Menu />
-          </SheetTrigger>
-          <SheetContent className="mobile-sheet">
-            <SheetTitle>Explore DestroSolutions</SheetTitle>
-            <SheetDescription>
-              Product security for a connected world.
-            </SheetDescription>
-            <nav>
-              {navigation.map(([n, h]) => (
-                <a key={n} href={sitePath(h)}>
-                  {n}
-                  <ArrowUpRight size={18} />
-                </a>
-              ))}
-              <a href={live + '/training'}>Training</a>
-              <a href={sitePath('/contact')}>Book a demo</a>
-            </nav>
-          </SheetContent>
-        </Sheet>
-      </div>
-    </header>
-  );
-}
-const sectors = [
-  {
-    name: 'Automotive',
-    slug: 'automotive',
-    icon: Car,
-    desc: 'From connected vehicles to every component in the supply chain.',
-    image: 'automotive',
-  },
-  {
-    name: 'Aviation',
-    slug: 'aviation',
-    icon: Plane,
-    desc: 'Security intelligence for aircraft, ground systems and operations.',
-    image: 'aviation',
-  },
-  {
-    name: 'Railway',
-    slug: 'railway',
-    icon: TrainFront,
-    desc: 'Protect signalling, rolling stock and critical rail networks.',
-    image: 'railway',
-  },
-  {
-    name: 'Maritime',
-    slug: 'maritime',
-    icon: Ship,
-    desc: 'Connect cyber risk across vessels, ports and shore operations.',
-    image: 'maritime',
-  },
-];
-const pillars = [
-  {
-    icon: Layers3,
-    num: '01',
-    title: 'Know your product.',
-    subtitle: 'Product Intelligence Suite',
-    desc: 'Connect software components, firmware and supplier dependencies to the vulnerabilities that affect your products.',
-    tags: ['SBOM visibility', 'Risk prioritization'],
-  },
-  {
-    icon: Network,
-    num: '02',
-    title: 'Connect the signals.',
-    subtitle: 'Threat Intel Exchange',
-    desc: 'Bring internal and external intelligence together. Share relevant indicators across your ecosystem using open standards.',
-    tags: ['STIX / TAXII', 'Collective defence'],
-  },
-  {
-    icon: Cpu,
-    num: '03',
-    title: 'Move from insight to action.',
-    subtitle: 'Agentic AI Automation',
-    desc: 'Automate investigation, case creation and response workflows, with human review for safety-critical decisions.',
-    tags: ['PSIRT workflows', 'Human oversight'],
-  },
-];
-function Hero() {
-  return (
-    <section className="hero hero-v2">
-      <div className="container hero-grid">
-        <div className="hero-content">
-          <div className="eyebrow">PRODUCT SECURITY. CONNECTED.</div>
-          <h1>
-            Product security.
-            <br />
-            Built for the
-            <br />
-            <span>physical world.</span>
-          </h1>
-          <p className="hero-copy">
-            Connect threat intelligence, product context and AI-assisted
-            response. Protect the systems that move your business forward.
-          </p>
-          <div className="actions">
-            <a className="button" href={sitePath('/contact')}>
-              Book a platform demo <ArrowUpRight size={18} />
-            </a>
-            <a className="button secondary" href={sitePath('/product')}>
-              Explore the platform <ArrowRight size={18} />
-            </a>
-          </div>
-          <div className="hero-note">
-            <ShieldCheck size={17} /> Built for connected products and physical
-            AI.
-          </div>
-        </div>
-        <SecurityDiagram />
-      </div>
-      <div className="container hero-bottom">
-        <span>FROM SOFTWARE DEPENDENCIES TO REAL-WORLD CONSEQUENCES</span>
-        <a href="#platform">
-          Discover the platform <ArrowRight size={16} />
-        </a>
-      </div>
-    </section>
-  );
-}
-function IndustryStrip() {
-  return (
-    <div className="industry-strip">
-      <div className="container">
-        <span className="strip-label">
-          BUILT FOR A<br />
-          CONNECTED WORLD
-        </span>
-        {sectors.map((s) => (
-          <a href={sitePath('/solutions/' + s.slug)} key={s.slug}>
-            <s.icon size={21} />
-            {s.name}
-          </a>
-        ))}
-        <a href={sitePath('/solutions/physical-ai')}>
-          <Cpu size={21} />
-          Physical AI
-        </a>
-      </div>
-    </div>
-  );
-}
-function Platform() {
-  return (
-    <section className="section container" id="platform">
-      <div className="section-heading">
-        <div>
-          <div className="eyebrow blue">ONE PLATFORM. A COMPLETE PICTURE.</div>
-          <h2>
-            Less noise.
-            <br />
-            <span>More intelligence.</span>
-          </h2>
-        </div>
-        <div className="section-intro">
-          <p>
-            Security doesn’t stop at the alert. Connect your product landscape,
-            threat intelligence and response in one continuous workflow.
-          </p>
-          <a className="text-link" href={sitePath('/product')}>
-            Meet your security operating system <ArrowUpRight size={17} />
-          </a>
-        </div>
-      </div>
-      <div className="pillar-grid">
-        {pillars.map((p) => (
-          <a
-            className="pillar"
-            href={sitePath(
-              '/features#' +
-                [
-                  'product-intelligence',
-                  'threat-exchange',
-                  'response-automation',
-                ][Number(p.num) - 1],
-            )}
-            key={p.num}
-          >
-            <div className="pillar-top">
-              <span className="icon-box">
-                <p.icon size={24} />
-              </span>
-              <span>{p.num}</span>
-            </div>
-            <p className="overline">{p.subtitle}</p>
-            <h3>{p.title}</h3>
-            <p>{p.desc}</p>
-            <div className="pillar-bottom">
-              <div>
-                {p.tags.map((t) => (
-                  <span key={t}>{t}</span>
-                ))}
-              </div>
-              <ArrowUpRight size={20} />
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
-function Industries() {
-  return (
-    <section className="industry-section">
-      <div className="container">
-        <div className="section-heading">
-          <div>
-            <div className="eyebrow blue">INDUSTRY CONTEXT BUILT IN</div>
-            <h2>
-              Different systems.
+    <>
+      <section className="hero">
+        <div className="container hero-grid">
+          <div className="hero-copy">
+            <Eyebrow>PRODUCT INTELLIGENCE × THREAT INTELLIGENCE × AI</Eyebrow>
+            <h1>
+              Product Security.
               <br />
-              <span>Security in context.</span>
-            </h2>
-          </div>
-          <div className="section-intro">
+              <span>
+                Built for the
+                <br />
+                Physical World.
+              </span>
+            </h1>
             <p>
-              When software meets the physical world, context matters. Bring
-              security into the realities of your industry.
+              DestroSolutions unifies product intelligence, threat intelligence,
+              and agentic AI to secure connected products, software-defined
+              vehicles, and intelligent physical systems.
             </p>
+            <div className="hero-actions">
+              <LinkButton href="/product">Explore the Platform</LinkButton>
+              <LinkButton href="/contact" secondary>
+                Talk to DestroSolutions
+              </LinkButton>
+            </div>
             <a className="text-link" href={sitePath('/solutions')}>
-              Explore all industries <ArrowUpRight size={17} />
+              View Solutions <ArrowRight size={16} />
             </a>
+            <div className="hero-caption">
+              <span>CONNECTED SYSTEMS. CONTEXTUAL SECURITY.</span>
+              <span>01 — 03</span>
+            </div>
           </div>
+          <CommandDiagram />
         </div>
-        <div className="industry-grid">
-          {sectors.map((s) => (
-            <a
-              className="industry-card"
-              href={sitePath('/solutions/' + s.slug)}
-              key={s.slug}
-            >
-              <img
-                src={sitePath('/images/' + s.image + '.jpg')}
-                alt=""
-                loading="lazy"
-              />
-              <div className="industry-overlay" />
-              <div className="industry-card-top">
-                <s.icon size={23} />
-                <ArrowUpRight size={22} />
-              </div>
-              <div className="industry-card-copy">
-                <h3>{s.name}</h3>
-                <p>{s.desc}</p>
-              </div>
-            </a>
+      </section>
+      <div className="credibility">
+        <div className="container">
+          <span>
+            ENGINEERED AROUND
+            <br />
+            YOUR PRODUCT CONTEXT
+          </span>
+          {[
+            'Automotive',
+            'Industrial',
+            'Connected Products',
+            'Software-Defined Vehicles',
+            'AI & Cybersecurity',
+          ].map((c) => (
+            <strong key={c}>{c}</strong>
           ))}
         </div>
-        <a className="industry-more" href={sitePath('/solutions')}>
-          Also built for manufacturing, defence, healthcare and energy{' '}
-          <ArrowRight size={18} />
-        </a>
       </div>
-    </section>
+      <Section
+        kicker="01 / THE CHANGING ATTACK SURFACE"
+        title="Modern Products Are Becoming Software Platforms."
+        description="Embedded software, cloud APIs, mobile applications and AI now shape physical behavior. Every connection and supplier dependency expands the context a security team needs."
+      >
+        <Flow
+          items={[
+            'Physical product',
+            'Connectivity',
+            'Software',
+            'Cloud',
+            'AI',
+            'Supply chain',
+            'Attack surface',
+          ]}
+        />
+        <div className="context-note">
+          <span>
+            <Radio size={22} /> Sensors & interfaces
+          </span>
+          <span>
+            <Layers3 size={22} /> Components & dependencies
+          </span>
+          <span>
+            <Network size={22} /> APIs, mobile & OTA
+          </span>
+          <p>
+            Security needs to follow the complete product, from its smallest
+            component to the ecosystem around it.
+          </p>
+        </div>
+      </Section>
+      <Section
+        id="platform"
+        kicker="02 / THE DESTROSOLUTIONS PLATFORM"
+        title="One Intelligence Layer for Product Security."
+        description="Connect what a product contains, what threatens it and what your team should investigate next."
+        className="surface-section"
+      >
+        <Pillars />
+        <PlatformArchitecture />
+        <a className="text-link section-link" href={sitePath('/product')}>
+          Inside the platform <ArrowRight size={17} />
+        </a>
+      </Section>
+      <Section
+        kicker="03 / PRODUCT INTELLIGENCE"
+        title="Understand Every Product Before Attackers Do."
+        description="Bring SBOMs, hardware, software, versions, assets and configurations into a connected product view."
+      >
+        <DashboardPreview />
+      </Section>
+      <Section
+        kicker="04 / THREAT INTELLIGENCE"
+        title="Turn Global Threat Signals into Product-Specific Risk."
+        description="A signal matters when you understand the product it could affect. Explore the path from external intelligence to contextual investigation."
+        className="surface-section"
+      >
+        <ThreatFlow />
+      </Section>
+      <Section
+        kicker="05 / AGENTIC AI"
+        title="Security Operations That Think and Act."
+        description="AI-assisted analysis can help teams move through evidence faster. Keep decisions reviewable, permissions explicit and people in control."
+      >
+        <AgentWorkflow />
+      </Section>
+      <AutomotiveSection />
+      <Section
+        kicker="07 / PHYSICAL AI"
+        title="Securing Machines That Can Sense, Decide, and Act."
+        description="Robotics, autonomous systems, industrial AI and edge devices bring software decisions into the physical world."
+      >
+        <div className="physical-layout">
+          <div className="physical-core">
+            <Cpu size={40} strokeWidth={1} />
+            <h3>
+              Intelligence meets
+              <br />
+              physical consequence.
+            </h3>
+            <p>
+              Understand the software, models and interfaces behind every
+              action.
+            </p>
+            <a className="text-link" href={sitePath('/solutions/physical-ai')}>
+              Explore Physical AI <ArrowUpRight size={16} />
+            </a>
+          </div>
+          <Flow items={['Sense', 'Understand', 'Decide', 'Act', 'Learn']} />
+        </div>
+      </Section>
+      <Section
+        kicker="08 / INDUSTRIES"
+        title="Built around your operating reality."
+        description="A shared intelligence approach. Different products, dependencies and engineering constraints."
+      >
+        <IndustryCards compact />
+      </Section>
+      <Section
+        kicker="09 / PRODUCT SECURITY OPERATIONS"
+        title="Every signal needs a decision."
+        description="Explore a fictional security operations environment. Filter signals and follow an evidence-led recommendation."
+        className="surface-section"
+      >
+        <SecurityOperations />
+      </Section>
+      <Section
+        kicker="10 / ENGINEERING PERSPECTIVES"
+        title="Clarity for the next decision."
+      >
+        <ArticleCards />
+      </Section>
+      <CTA />
+    </>
   );
 }
-function Compliance() {
+function AutomotiveSection() {
   return (
-    <section className="container compliance">
-      <div className="compliance-icon">
-        <ShieldCheck size={35} />
+    <Section
+      kicker="06 / AUTOMOTIVE & SDV"
+      title="Security for the Software-Defined Vehicle."
+      description="Connect vehicle software, supplier dependencies and cloud services across engineering, release and in-service operations."
+      className="automotive-section"
+    >
+      <div className="vehicle-architecture">
+        <div className="vehicle-label">
+          <Car size={32} strokeWidth={1.3} />
+          <strong>
+            SOFTWARE-DEFINED
+            <br />
+            VEHICLE ARCHITECTURE
+          </strong>
+          <span>Conceptual system view</span>
+        </div>
+        <Flow
+          items={[
+            'Sensors',
+            'ECUs',
+            'Zonal architecture',
+            'Vehicle computer',
+            'Connectivity',
+            'Cloud',
+            'OTA',
+            'AI',
+          ]}
+        />
       </div>
-      <div>
-        <div className="eyebrow blue">FROM SECURITY WORK TO AUDIT EVIDENCE</div>
-        <h3>Make compliance part of the process.</h3>
-        <p>
-          Connect product security decisions to the evidence your teams need.
-        </p>
-      </div>
-      <a className="text-link" href={sitePath('/use-cases')}>
-        Explore use cases <ArrowUpRight size={17} />
-      </a>
-      <div className="standards">
+      <div className="framework-row">
         {[
-          'ISO / SAE 21434',
-          'UNECE WP.29',
-          'EU CRA',
-          'IEC 62443',
-          'DO-326A',
+          'ISO/SAE 21434',
+          'ISO 26262',
+          'UNECE R155 / R156',
+          'ASPICE',
+          'OTA',
+          'SBOM',
+          'Vehicle security operations',
         ].map((t) => (
           <span key={t}>{t}</span>
         ))}
       </div>
-    </section>
-  );
-}
-function CTA() {
-  return (
-    <section className="cta-section container">
-      <div>
-        <div className="eyebrow">YOUR NEXT MOVE</div>
-        <h2>Put your product security in context.</h2>
+      <div className="section-bottom">
         <p>
-          See what connected intelligence can do for your product security team.
+          Engineering context; applicability requires assessment. No
+          certification claim.
         </p>
-      </div>
-      <a className="button light" href={sitePath('/contact')}>
-        Let’s talk security <ArrowUpRight size={19} />
-      </a>
-    </section>
-  );
-}
-function Footer() {
-  return (
-    <footer className="container footer">
-      <div className="footer-top">
-        <div>
-          <Brand />
-          <p>
-            Security for the systems
-            <br />
-            the world depends on.
-          </p>
-          <a
-            className="footer-social"
-            href="https://www.linkedin.com/company/destrosolutions"
-          >
-            LinkedIn <ArrowUpRight size={14} />
-          </a>
-        </div>
-        <div>
-          <h4>Platform</h4>
-          <a href={sitePath('/product')}>Product overview</a>
-          <a href={sitePath('/features')}>Capabilities</a>
-          <a href={sitePath('/use-cases')}>Use cases</a>
-        </div>
-        <div>
-          <h4>Explore</h4>
-          <a href={sitePath('/solutions')}>Industries</a>
-          <a href={live + '/blog'}>Insights</a>
-          <a href={live + '/training'}>Training</a>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <a href={sitePath('/contact')}>Contact us</a>
-          <a href={live + '/contact#team'}>Our team</a>
-          <a href={live + '/careers'}>Careers</a>
-        </div>
-      </div>
-      <div className="footer-bottom">
-        <span>
-          © {new Date().getFullYear()} DestroSolutions. All rights reserved.
-        </span>
-        <div>
-          <a href={live + '/privacy'}>Privacy</a>
-          <a href={live + '/terms'}>Terms</a>
-          <a href={live + '/refund-policy'}>Refund policy</a>
-          <span>
-            Hyderabad, India <span className="status-dot" />
-          </span>
-        </div>
-      </div>
-    </footer>
-  );
-}
-function Home() {
-  return (
-    <>
-      <a href="#main" className="skip-link">
-        Skip to content
-      </a>
-      <Header />
-      <main id="main">
-        <Hero />
-        <IndustryStrip />
-        <Platform />
-        <PlatformExplorer />
-        <Industries />
-        <Compliance />
-        <CTA />
-      </main>
-      <Footer />
-    </>
-  );
-}
-
-const extraSectors = [
-  {
-    name: 'Physical AI',
-    slug: 'physical-ai',
-    icon: Cpu,
-    desc: 'Protect robotics, autonomous machines and the software that connects intelligence to motion.',
-  },
-  {
-    name: 'Manufacturing',
-    slug: 'manufacturing',
-    icon: Layers3,
-    desc: 'Connect development pipelines, industrial products and the systems deployed on the factory floor.',
-  },
-  {
-    name: 'Defence',
-    slug: 'defense',
-    icon: ShieldCheck,
-    desc: 'Maintain component visibility and security evidence across long-lived mission systems.',
-  },
-  {
-    name: 'Healthcare',
-    slug: 'healthcare',
-    icon: ScanLine,
-    desc: 'Monitor vulnerabilities across medical-device software and fielded firmware versions.',
-  },
-  {
-    name: 'Energy',
-    slug: 'energy',
-    icon: Radio,
-    desc: 'Understand supplier dependencies across generation, transmission and distribution assets.',
-  },
-];
-const sectorDetails: Record<
-  string,
-  { headline: string; context: string; items: string[]; standards: string[] }
-> = {
-  automotive: {
-    headline: 'Protect every layer of the connected vehicle.',
-    context:
-      'Vehicle security depends on knowing which software is in the fleet, where it came from and which threats can reach it. Bring that context into every security decision.',
-    items: [
-      'Map firmware and supplier components to vehicle platforms.',
-      'Prioritize vulnerabilities against product configuration and exposure.',
-      'Keep a traceable record of investigation, remediation and supplier decisions.',
-    ],
-    standards: ['ISO / SAE 21434', 'UNECE WP.29', 'EU CRA'],
-  },
-  aviation: {
-    headline: 'Security intelligence for systems built to keep flying.',
-    context:
-      'Aircraft and ground systems operate within demanding safety and maintenance constraints. Put system context and human oversight at the centre of cyber risk decisions.',
-    items: [
-      'Connect aircraft, ground-system and supplier inventories.',
-      'Assess findings against operational exposure and safety implications.',
-      'Record security decisions across the supported system lifecycle.',
-    ],
-    standards: ['DO-326A / ED-202A', 'DO-356A / ED-203A', 'IEC 62443'],
-  },
-  railway: {
-    headline: 'Keep security on track. Keep the network moving.',
-    context:
-      'Rail systems have long service lives and tightly controlled maintenance windows. Prioritize work with a clear view of signalling, rolling stock and operational dependencies.',
-    items: [
-      'Connect trackside, depot and control-centre asset context.',
-      'Assess vulnerabilities across IT and operational technology.',
-      'Sequence response around safety review and maintenance constraints.',
-    ],
-    standards: ['TS 50701', 'IEC 62443', 'NIS2'],
-  },
-  maritime: {
-    headline: 'One view of risk. Across your entire fleet.',
-    context:
-      'Vessel networks, port systems and shore operations are part of the same security picture. Connect intelligence across them without losing the context of each asset.',
-    items: [
-      'Maintain visibility into vessel systems and supplier components.',
-      'Correlate intelligence with navigation, communications and port assets.',
-      'Support consistent investigation and evidence across the fleet.',
-    ],
-    standards: ['IMO cyber risk management', 'IACS E26 / E27', 'IEC 62443'],
-  },
-  'physical-ai': {
-    headline: 'When software moves, security matters more.',
-    context:
-      'Robots and autonomous machines connect software decisions to physical actions. Bring middleware, model dependencies and motion systems into your security assessment.',
-    items: [
-      'Include firmware, ROS 2 middleware and model dependencies in product context.',
-      'Evaluate findings against the machine’s deployment and operating environment.',
-      'Route safety-critical response decisions to the responsible people.',
-    ],
-    standards: ['EU CRA', 'IEC 62443', 'ISO 10218'],
-  },
-  manufacturing: {
-    headline: 'Connect the build pipeline to the factory floor.',
-    context:
-      'A product’s security story continues after it ships. Connect component information with deployed versions so your teams can understand exposure and coordinate action.',
-    items: [
-      'Link supplier SBOMs and build outputs to product releases.',
-      'Trace vulnerability exposure across installed versions.',
-      'Support supplier communication with VEX and CSAF advisories.',
-    ],
-    standards: ['IEC 62443', 'EU CRA', 'NIS2'],
-  },
-  defense: {
-    headline: 'Maintain security context for the life of the mission.',
-    context:
-      'Long-lived systems need a durable record of components, configuration and security decisions. Make that record useful to engineering and assurance teams.',
-    items: [
-      'Track configuration and supplier-component history.',
-      'Maintain visibility into obsolete and inherited dependencies.',
-      'Connect investigation records to assurance evidence.',
-    ],
-    standards: ['CMMC', 'RMF', 'DO-326A'],
-  },
-  healthcare: {
-    headline: 'Security that follows every device version.',
-    context:
-      'Medical-device security requires visibility into the software that remains in use. Connect build information, monitoring and disclosure workflows across the supported lifecycle.',
-    items: [
-      'Retain SBOM context for each shipped firmware version.',
-      'Monitor product vulnerabilities across the installed base.',
-      'Coordinate disclosure and documented remediation decisions.',
-    ],
-    standards: ['FDA 524B', 'IEC 81001-5-1', 'EU CRA'],
-  },
-  energy: {
-    headline: 'See the dependencies behind critical operations.',
-    context:
-      'Security teams need to understand supplier components and configuration changes across operational assets. Turn that information into a consistent basis for prioritization.',
-    items: [
-      'Connect supplier information to deployed operational assets.',
-      'Track baseline configurations and changes over time.',
-      'Maintain a reviewable record of findings and response actions.',
-    ],
-    standards: ['NERC CIP', 'IEC 62443', 'NIS2'],
-  },
-};
-function PageIntro({
-  label,
-  title,
-  description,
-}: {
-  label: string;
-  title: string;
-  description: string;
-}) {
-  const contents: Record<string, string[][]> = {
-    Capabilities: [
-      ['Product intelligence', 'product-intelligence'],
-      ['Threat intelligence exchange', 'threat-exchange'],
-      ['AI-assisted response', 'response-automation'],
-    ],
-    Solutions: [
-      ['Transport & mobility', 'mobility'],
-      ['Industrial & critical systems', 'critical-systems'],
-      ['Compare industries', 'compare-industries'],
-    ],
-    'Use cases': [
-      ['Vulnerability management', 'vulnerability-management'],
-      ['Supplier coordination', 'supplier-coordination'],
-      ['PSIRT response', 'psirt-response'],
-      ['Security evidence', 'security-evidence'],
-    ],
-    Contact: [
-      ['Prepare an enquiry', 'prepare-enquiry'],
-      ['Arrange a walkthrough', 'arrange-demo'],
-      ['Contact the team', 'contact-team'],
-    ],
-  };
-  return (
-    <section className="page-banner">
-      <div className="container">
-        <nav className="breadcrumb" aria-label="Breadcrumb">
-          <a href={sitePath('/')}>Home</a>
-          <ChevronRight size={13} />
-          <span>{label}</span>
-        </nav>
-        <div className="page-banner-grid">
-          <div>
-            <div className="eyebrow">
-              DESTROSOLUTIONS / {label.toUpperCase()}
-            </div>
-            <h1>{title}</h1>
-            <p>{description}</p>
-          </div>
-          <nav className="page-directory" aria-label="On this page">
-            <span>EXPLORE THIS PAGE</span>
-            {(contents[label] || []).map(([name, id], i) => (
-              <a href={'#' + id} key={id}>
-                <small>0{i + 1}</small>
-                {name}
-                <ArrowRight size={16} />
-              </a>
-            ))}
-          </nav>
-        </div>
-      </div>
-    </section>
-  );
-}
-const workflow = [
-  {
-    title: 'Ingest',
-    icon: Layers3,
-    description:
-      'Bring SBOMs, supplier information and internal and external threat feeds into one product context.',
-    detail: 'A foundation your team can trace back to the source.',
-  },
-  {
-    title: 'Analyze',
-    icon: ScanLine,
-    description:
-      'Correlate indicators and vulnerabilities with the components and configurations in your products.',
-    detail: 'Understand which signals belong to your environment.',
-  },
-  {
-    title: 'Prioritize',
-    icon: Network,
-    description:
-      'Evaluate exposure, asset criticality and operational impact to focus attention on the work that matters.',
-    detail: 'Make decisions with product and business context.',
-  },
-  {
-    title: 'Respond',
-    icon: ShieldCheck,
-    description:
-      'Coordinate cases, advisories and response playbooks with human review for critical decisions.',
-    detail: 'Keep a record of what happened and why.',
-  },
-];
-function ProductPage() {
-  return (
-    <>
-      <section className="product-hero">
-        <div className="container product-hero-grid">
-          <div>
-            <a className="breadcrumb" href={sitePath('/')}>
-              Home <ChevronRight size={13} /> Platform
-            </a>
-            <div className="eyebrow">THE PRODUCT SECURITY OS</div>
-            <h1>
-              Know your products.
-              <br />
-              <span>Act on real exposure.</span>
-            </h1>
-            <p>
-              Bring your product landscape, threat intelligence and response
-              into one continuous workflow. Give every security decision the
-              context it deserves.
-            </p>
-            <div className="actions">
-              <a href={sitePath('/contact')} className="button">
-                Request a walkthrough <ArrowUpRight size={18} />
-              </a>
-              <a href="#intelligence-loop" className="button secondary">
-                Explore the workflow <ArrowRight size={18} />
-              </a>
-            </div>
-            <a
-              className="product-video"
-              href="https://www.youtube.com/watch?v=phJPk1v6NaI"
-            >
-              Watch the platform introduction <ArrowUpRight size={16} />
-            </a>
-          </div>
-          <SecurityDiagram />
-        </div>
-      </section>
-      <PlatformExplorer />
-      <Platform />
-      <section className="container assurance-band">
-        <ShieldCheck size={33} />
-        <div>
-          <h2>Automation with clear accountability.</h2>
-          <p>
-            Keep human review at critical decision points, connect actions to
-            evidence and give teams a shared basis for response.
-          </p>
-        </div>
-        <a href={sitePath('/features')} className="text-link">
-          Explore capabilities <ArrowRight size={18} />
+        <a className="text-link" href={sitePath('/solutions/automotive')}>
+          Explore automotive security <ArrowUpRight size={16} />
         </a>
-      </section>
-      <CTA />
-    </>
-  );
-}
-function FeaturesPage() {
-  const capabilityDetails = [
-    {
-      id: 'product-intelligence',
-      inputs: ['SBOMs & firmware versions', 'Supplier component records'],
-      output: 'A shared view of product exposure',
-      summary: 'Understand the software that ships with your products.',
-      items: [
-        'Connect component information with shipped product versions.',
-        'Bring vulnerability findings into the context of your dependencies.',
-        'Give engineering and security a shared basis for investigation.',
-      ],
-    },
-    {
-      id: 'threat-exchange',
-      inputs: ['Internal & external signals', 'Partner intelligence'],
-      output: 'Relevant intelligence across your ecosystem',
-      summary: 'Connect the right intelligence to the right teams.',
-      items: [
-        'Correlate internal and external intelligence with product context.',
-        'Exchange structured indicators using STIX / TAXII.',
-        'Coordinate information across suppliers and security teams.',
-      ],
-    },
-    {
-      id: 'response-automation',
-      inputs: ['Prioritized findings', 'Playbooks & review decisions'],
-      output: 'Coordinated actions with a decision record',
-      summary: 'Keep investigation, response and evidence connected.',
-      items: [
-        'Support investigation and case-creation workflows.',
-        'Coordinate advisories and repeatable response playbooks.',
-        'Keep human review at safety-critical decision points.',
-      ],
-    },
-  ];
-  return (
-    <>
-      <PageIntro
-        label="Capabilities"
-        title="The context to understand. The control to act."
-        description="Connect product visibility, threat intelligence and AI-assisted response. Give your team a clear path from a security signal to an informed decision."
-      />
-      <section className="container capability-sections">
-        {pillars.map((p, i) => {
-          const d = capabilityDetails[i];
-          return (
-            <article id={d.id} className="capability-section" key={p.num}>
-              <div className="capability-heading">
-                <span className="chapter-number">{p.num}</span>
-                <div>
-                  <div className="eyebrow blue">{p.subtitle.toUpperCase()}</div>
-                  <h2>{d.summary}</h2>
-                  <p>{p.desc}</p>
-                  <ul className="check-list">
-                    {d.items.map((t) => (
-                      <li key={t}>
-                        <Check size={18} />
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={sitePath(
-                      '/contact?priority=' +
-                        encodeURIComponent(
-                          [
-                            'Product visibility',
-                            'Threat intelligence',
-                            'Response automation',
-                          ][i],
-                        ) +
-                        '#prepare-enquiry',
-                    )}
-                    className="text-link"
-                  >
-                    Discuss your workflow <ArrowRight size={17} />
-                  </a>
-                </div>
-              </div>
-              <div className="capability-map">
-                <div className="map-title">
-                  <p.icon size={22} />
-                  <span>{p.subtitle}</span>
-                </div>
-                <div className="map-label">CONNECT</div>
-                {d.inputs.map((t) => (
-                  <div className="map-input" key={t}>
-                    <Layers3 size={17} />
-                    {t}
-                  </div>
-                ))}
-                <div className="map-arrow">
-                  <ArrowRight size={18} />
-                </div>
-                <div className="map-output">
-                  <ShieldCheck size={24} />
-                  <strong>{d.output}</strong>
-                </div>
-                <div className="map-footer">PRODUCT CONTEXT AT EVERY STEP</div>
-              </div>
-            </article>
-          );
-        })}
-      </section>
-      <Compliance />
-      <CTA />
-    </>
-  );
-}
-function SolutionsPage() {
-  return (
-    <>
-      <PageIntro
-        label="Solutions"
-        title="Different environments. The same need for clarity."
-        description="From connected vehicles to autonomous machines, security decisions need operational context. Explore how DestroSolutions fits the systems you protect."
-      />
-      <div id="mobility">
-        <Industries />
       </div>
-      <section className="container extra-industries" id="critical-systems">
-        <div className="section-heading">
-          <div>
-            <div className="eyebrow blue">INDUSTRIAL & CRITICAL SYSTEMS</div>
-            <h2>
-              Security where software
-              <br />
-              <span>has a physical impact.</span>
-            </h2>
-          </div>
-          <p className="section-intro">
-            Understand the dependencies, deployment constraints and
-            responsibilities behind each product.
-          </p>
-        </div>
-        <div className="extra-grid">
-          {extraSectors.map((s, i) => (
-            <a key={s.slug} href={sitePath('/solutions/' + s.slug)}>
-              <div className="industry-tile-top">
-                <s.icon size={27} />
-                <span>0{i + 5}</span>
-              </div>
-              <h3>{s.name}</h3>
-              <p>{s.desc}</p>
-              <span className="text-link">
-                Explore {s.name.toLowerCase()} <ArrowRight size={16} />
-              </span>
+    </Section>
+  );
+}
+function IndustryCards({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className="industry-grid">
+      {(compact ? industries.slice(0, 7) : industries).map((i, n) => {
+        const Icon = [Car, Factory, Bot, Box, Factory, Globe, Zap][n % 7];
+        return (
+          <article className="industry-card" key={i.slug}>
+            <div className="card-top">
+              <Icon size={25} strokeWidth={1.4} />
+              <span>{String(n + 1).padStart(2, '0')}</span>
+            </div>
+            <h3>{i.name}</h3>
+            <p>{i.description}</p>
+            <dl>
+              <dt>SECURITY REQUIREMENT</dt>
+              <dd>{i.requirement}</dd>
+              <dt>INTELLIGENCE APPLICATION</dt>
+              <dd>{i.capability}</dd>
+            </dl>
+            <a className="text-link" href={sitePath('/solutions/' + i.slug)}>
+              Explore {i.name} <ArrowUpRight size={16} />
             </a>
-          ))}
-        </div>
-      </section>
-      <section className="container assurance-band">
-        <Network size={32} />
-        <div>
-          <h2>One ecosystem. Multiple responsibilities.</h2>
-          <p>
-            Connect product security, engineering and supplier teams through
-            shared context and coordinated workflows.
-          </p>
-        </div>
-        <a className="text-link" href={sitePath('/use-cases')}>
-          Explore use cases <ArrowRight size={17} />
-        </a>
-      </section>
-      <IndustryCompare
-        industries={[...sectors, ...extraSectors].map((s) => ({
-          slug: s.slug,
-          name: s.name,
-          description: s.desc,
-          priorities: sectorDetails[s.slug].items,
-          frameworks: sectorDetails[s.slug].standards,
-        }))}
-      />
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+function Product() {
+  return (
+    <>
+      <PageHero
+        kicker="PRODUCTS / PRODUCT SECURITY OS"
+        title="One Intelligence Layer for Product Security."
+        description="Product Intelligence Suite. Threat Intel Exchange. Agentic AI Automation. A connected approach to understanding and responding to product risk."
+      >
+        <LinkButton href="/contact">Discuss the platform</LinkButton>
+        <LinkButton href="#product-intelligence" secondary>
+          Explore capabilities
+        </LinkButton>
+      </PageHero>
+      <Section
+        kicker="THE ARCHITECTURE"
+        title="From scattered signals to a product decision."
+      >
+        <PlatformArchitecture />
+        <Pillars />
+      </Section>
+      <Section
+        id="product-intelligence"
+        kicker="PRODUCT INTELLIGENCE SUITE"
+        title="Understand Every Product Before Attackers Do."
+        description="Connect SBOMs, software components, hardware, vulnerabilities, dependencies, suppliers, versions, assets and configurations."
+        className="surface-section"
+      >
+        <DashboardPreview />
+      </Section>
+      <Section
+        id="threat-intelligence"
+        kicker="THREAT INTEL EXCHANGE"
+        title="Turn Global Threat Signals into Product-Specific Risk."
+        description="Bring structured intelligence into a product investigation. Explore STIX and TAXII exchange, correlation and contextual prioritization."
+      >
+        <ThreatFlow />
+      </Section>
+      <Section
+        id="agentic-ai"
+        kicker="AGENTIC AI AUTOMATION"
+        title="Security Operations That Think and Act."
+        description="Explore AI-assisted investigation, cases, advisories and playbooks with human review and clearly bounded permissions."
+        className="surface-section"
+      >
+        <AgentWorkflow />
+      </Section>
+      <Section
+        kicker="THE OPERATING VIEW"
+        title="Keep the evidence close to the decision."
+      >
+        <SecurityOperations />
+      </Section>
       <CTA />
     </>
   );
 }
-function SectorPage({ slug }: { slug: string }) {
-  const s = [...sectors, ...extraSectors].find((s) => s.slug === slug);
-  const d = sectorDetails[slug];
-  if (!s || !d) return <NotFound />;
-  const context: Record<string, string[]> = {
-    automotive: [
-      'Vehicle platforms',
-      'Firmware releases',
-      'Supplier components',
-    ],
-    aviation: [
-      'Aircraft systems',
-      'Ground operations',
-      'Maintenance constraints',
-    ],
-    railway: ['Signalling', 'Rolling stock', 'Control centres'],
-    maritime: ['Vessel systems', 'Port infrastructure', 'Shore operations'],
-    'physical-ai': ['Robot middleware', 'Model dependencies', 'Motion systems'],
-    manufacturing: ['Build pipelines', 'Product releases', 'Installed systems'],
-    defense: [
-      'Mission systems',
-      'Configuration history',
-      'Supplier dependencies',
-    ],
-    healthcare: ['Device software', 'Fielded firmware', 'Disclosure workflows'],
-    energy: [
-      'Operational assets',
-      'Supplier components',
-      'Configuration baselines',
-    ],
-  };
-  const zones = context[slug];
+function Solutions() {
   return (
     <>
-      <section className="sector-hero">
-        <div className="container">
-          <nav className="breadcrumb" aria-label="Breadcrumb">
-            <a href={sitePath('/')}>Home</a>
-            <ChevronRight size={13} />
-            <a href={sitePath('/solutions')}>Industries</a>
-            <ChevronRight size={13} />
-            <span>{s.name}</span>
-          </nav>
-          <div className="sector-hero-grid">
-            <div>
-              <div className="eyebrow">
-                <s.icon size={18} />
-                {s.name.toUpperCase()} SECURITY
-              </div>
-              <h1>{d.headline}</h1>
-              <p>{d.context}</p>
-              <a
-                href={sitePath(
-                  '/contact?industry=' +
-                    encodeURIComponent(s.name) +
-                    '#prepare-enquiry',
-                )}
-                className="button"
-              >
-                Discuss {s.name.toLowerCase()} security <ArrowRight size={18} />
-              </a>
-            </div>
-            <div className="sector-visual">
-              {'image' in s ? (
-                <img
-                  src={sitePath('/images/' + s.image + '.jpg')}
-                  alt={s.name + ' technology and infrastructure'}
-                  width="640"
-                  height="440"
-                />
-              ) : (
-                <div className="sector-context-map">
-                  <span>PRODUCT & OPERATIONAL CONTEXT</span>
-                  <s.icon size={46} />
-                  {zones.map((z) => (
-                    <div key={z}>
-                      <CircleDot size={16} />
-                      {z}
-                    </div>
+      <PageHero
+        kicker="SOLUTIONS"
+        title="Security follows the product."
+        description="Explore the security challenges that connect engineering, suppliers and operations. Start with the decision your team needs to make."
+      >
+        <LinkButton href="/contact">Discuss your priorities</LinkButton>
+      </PageHero>
+      <Section
+        kicker="SOLUTION EXPLORER"
+        title="Find the right starting point."
+        description="These are application areas for a discussion. Scope, integrations and delivery are confirmed against your requirements."
+      >
+        <div className="solution-grid">
+          {solutions.map(([slug, name, description, tags], i) => {
+            const Icon = [ShieldCheck, Car, Network, Cpu, Radio, Layers3][
+              i % 6
+            ];
+            return (
+              <article className="solution-card" key={slug}>
+                <Icon size={24} strokeWidth={1.4} />
+                <h3>{name}</h3>
+                <p>{description}</p>
+                <div className="tags">
+                  {tags.split(' · ').map((t) => (
+                    <span key={t}>{t}</span>
                   ))}
                 </div>
-              )}
-              <div className="sector-visual-caption">
-                <ShieldCheck size={17} />
-                <span>Product intelligence. Operational context.</span>
-              </div>
-            </div>
-          </div>
+                <a
+                  className="text-link"
+                  href={sitePath('/solutions/capabilities/' + slug)}
+                >
+                  Explore solution <ArrowUpRight size={16} />
+                </a>
+              </article>
+            );
+          })}
         </div>
-      </section>
-      <div className="sector-scope">
-        <div className="container">
-          <span>YOUR SECURITY LANDSCAPE</span>
-          {zones.map((z) => (
-            <strong key={z}>{z}</strong>
-          ))}
-        </div>
-      </div>
-      <section className="container sector-priorities">
-        <div className="section-heading">
-          <div>
-            <div className="eyebrow blue">FROM CONTEXT TO ACTION</div>
-            <h2>
-              A clearer path through
-              <br />
-              <span>your security priorities.</span>
-            </h2>
-          </div>
-          <p className="section-intro">
-            Bring product knowledge into investigation, make operational
-            constraints visible and keep decisions connected to the evidence.
-          </p>
-        </div>
-        <div className="priority-grid">
-          {d.items.map((t, i) => (
+      </Section>
+      <CTA />
+    </>
+  );
+}
+function SolutionDetail({ slug }: { slug: string }) {
+  const s = solutions.find((s) => s[0] === slug)!;
+  return (
+    <>
+      <PageHero
+        kicker="SOLUTION / APPLICATION AREA"
+        title={s[1]}
+        description={s[2]}
+      >
+        <LinkButton href="/contact">Discuss this solution</LinkButton>
+        <LinkButton href="/solutions" secondary>
+          All solutions
+        </LinkButton>
+      </PageHero>
+      <Section
+        kicker="ENGINEERING CONTEXT"
+        title="Start with scope. Connect the evidence."
+        description="A useful security workflow begins with your architecture, data sources and decision owners."
+      >
+        <div className="editorial-grid">
+          {s[3].split(' · ').map((t, i) => (
             <article key={t}>
-              <div>
-                <span>0{i + 1}</span>
-                {i === 0 ? (
-                  <Layers3 size={25} />
-                ) : i === 1 ? (
-                  <ScanLine size={25} />
-                ) : (
-                  <ShieldCheck size={25} />
-                )}
-              </div>
-              <h3>
+              <Eyebrow>0{i + 1} / PRIORITY</Eyebrow>
+              <h3>{t}</h3>
+              <p>
                 {
                   [
-                    'Understand the landscape',
-                    'Assess what matters',
-                    'Coordinate with confidence',
+                    'Identify the products, versions and dependencies relevant to this priority.',
+                    'Connect the available evidence and make unresolved questions visible.',
+                    'Define the review, ownership and controlled next step for your environment.',
                   ][i]
                 }
-              </h3>
-              <p>{t}</p>
+              </p>
             </article>
           ))}
         </div>
-      </section>
-      <section className="evidence-section">
-        <div className="container evidence-grid">
+        <div className="callout">
+          <ShieldCheck size={25} />
           <div>
-            <div className="eyebrow blue">SECURITY & ASSURANCE</div>
-            <h2>
-              Evidence that stays
-              <br />
-              with the decision.
-            </h2>
+            <h3>Confirm the right scope for your environment.</h3>
             <p>
-              Maintain a reviewable record of components, findings and response
-              actions. Give assurance teams the context to assess applicable
-              requirements.
-            </p>
-            <a
-              href={sitePath('/use-cases#security-evidence')}
-              className="text-link"
-            >
-              Explore the evidence workflow <ArrowRight size={17} />
-            </a>
-          </div>
-          <div className="evidence-card">
-            <span>RELEVANT FRAMEWORKS</span>
-            {d.standards.map((t) => (
-              <div key={t}>
-                <ShieldCheck size={18} />
-                {t}
-              </div>
-            ))}
-            <p>
-              Framework applicability and compliance assessments remain with
-              your assurance team.
+              These application areas describe discussion topics, not a promise
+              of specific integrations, certification or compliance. Discuss
+              their fit with DestroSolutions product intelligence and security
+              workflows.
             </p>
           </div>
         </div>
-      </section>
-      <section className="container sector-navigation">
-        <div>
-          <span>CONTINUE EXPLORING</span>
-          <h3>Security across connected industries.</h3>
-        </div>
-        <nav aria-label="Other industries">
-          {[...sectors, ...extraSectors]
-            .filter((x) => x.slug !== slug)
-            .map((x) => (
-              <a href={sitePath('/solutions/' + x.slug)} key={x.slug}>
-                {x.name}
-                <ArrowUpRight size={14} />
-              </a>
-            ))}
-        </nav>
-      </section>
-      <CTA />
-    </>
-  );
-}
-const useCases = [
-  {
-    title: 'Product vulnerability management',
-    icon: ScanLine,
-    problem:
-      'A new vulnerability appears. Which shipped products are affected?',
-    solution:
-      'Connect vulnerability intelligence to component and firmware information, then prioritize investigation against product exposure.',
-    outcome: 'A product-level view of what needs attention.',
-  },
-  {
-    title: 'Supplier security coordination',
-    icon: Network,
-    problem: 'Security information lives across suppliers, teams and formats.',
-    solution:
-      'Bring supplier intelligence into a shared workflow and exchange structured information using open standards.',
-    outcome: 'A clearer path from supplier signal to coordinated response.',
-  },
-  {
-    title: 'PSIRT response workflows',
-    icon: Cpu,
-    problem: 'Manual triage slows down investigation and communication.',
-    solution:
-      'Coordinate case creation, investigation, VEX drafting and response playbooks, with human review at critical steps.',
-    outcome: 'Repeatable response with a reviewable decision history.',
-  },
-  {
-    title: 'Compliance evidence',
-    icon: ShieldCheck,
-    problem:
-      'Audit evidence becomes a separate project at the end of the cycle.',
-    solution:
-      'Preserve component context, assessments and action records as security work happens, ready for assurance teams to review.',
-    outcome: 'Security decisions and supporting evidence kept together.',
-  },
-];
-function UseCasesPage() {
-  const ids = [
-    'vulnerability-management',
-    'supplier-coordination',
-    'psirt-response',
-    'security-evidence',
-  ];
-  return (
-    <>
-      <PageIntro
-        label="Use cases"
-        title="Start with the problem. Move forward with context."
-        description="Make everyday security work more connected — from identifying affected products to coordinating suppliers and preserving the evidence behind a response."
-      />
-      <section className="container case-journeys">
-        {useCases.map((u, i) => (
-          <article className="case-journey" id={ids[i]} key={u.title}>
-            <div className="case-heading">
-              <span className="chapter-number">0{i + 1}</span>
-              <u.icon size={25} />
-              <h2>{u.title}</h2>
-            </div>
-            <div className="case-content">
-              <div className="case-problem">
-                <span>THE QUESTION</span>
-                <h3>{u.problem}</h3>
-              </div>
-              <div className="case-approach">
-                <span>THE WORKFLOW</span>
-                <p>{u.solution}</p>
-                <a href={sitePath('/contact')} className="text-link">
-                  Discuss this use case <ArrowRight size={17} />
-                </a>
-              </div>
-              <div className="case-result">
-                <ShieldCheck size={25} />
-                <span>THE RESULT</span>
-                <p>{u.outcome}</p>
-              </div>
-            </div>
-          </article>
-        ))}
-      </section>
-      <CTA />
-    </>
-  );
-}
-function ContactPage() {
-  return (
-    <>
-      <PageIntro
-        label="Contact"
-        title="Your products. Your priorities. Let’s talk."
-        description="Connect with the DestroSolutions team to explore your security challenges, product landscape and the workflows that matter to your organization."
-      />
-      <EnquiryBuilder />
-      <section
-        className="container contact-layout contact-layout-v3"
-        id="arrange-demo"
+      </Section>
+      <Section
+        kicker="CONNECTED CAPABILITIES"
+        title="One product view. Complementary intelligence."
       >
-        <div className="contact-card">
-          <div className="eyebrow blue">PLATFORM WALKTHROUGH</div>
-          <h2>
-            Make the conversation
-            <br />
-            relevant to your team.
-          </h2>
-          <p>
-            Tell us about your industry and what you’re working to protect. We
-            can explore the platform in the context of your product security
-            priorities.
-          </p>
-          <div className="meeting-topics">
-            {[
-              'Product & supplier visibility',
-              'Threat intelligence & investigation',
-              'Response workflows & security evidence',
-            ].map((t, i) => (
-              <div key={t}>
-                <span>0{i + 1}</span>
-                {t}
-              </div>
-            ))}
-          </div>
-          <a
-            className="button"
-            href="mailto:avinashchowdam@destrosolutions.com?subject=DestroSolutions%20platform%20walkthrough"
-          >
-            Arrange a walkthrough <ArrowUpRight size={18} />
-          </a>
-          <p className="contact-note">
-            Opens your email application. Prefer a form?{' '}
-            <a href={live + '/contact'}>
-              Send an enquiry <ArrowUpRight size={13} />
-            </a>
-          </p>
-        </div>
-        <div className="contact-details" id="contact-team">
-          <div className="eyebrow blue">CONTACT THE TEAM</div>
-          <h3>Start a direct conversation.</h3>
-          <p className="contact-lead">
-            Share your company, your product environment and the challenge you
-            would like to discuss.
-          </p>
-          <div className="direct-method">
-            <span>EMAIL</span>
-            <a href="mailto:avinashchowdam@destrosolutions.com">
-              avinashchowdam@destrosolutions.com <ArrowUpRight size={16} />
-            </a>
-          </div>
-          <div className="direct-method">
-            <span>PHONE</span>
-            <a href="tel:+919398793452">
-              +91 93987 93452 <ArrowUpRight size={16} />
-            </a>
-          </div>
-          <div className="direct-method">
-            <span>LOCATION</span>
-            <p>Hyderabad, India</p>
-          </div>
-          <a className="text-link" href={live + '/contact#team'}>
-            Meet the people behind DestroSolutions <ArrowRight size={17} />
-          </a>
-        </div>
-      </section>
-      <section className="container contact-other">
-        <div>
-          <div className="eyebrow blue">DEVELOP YOUR EXPERTISE</div>
-          <h3>Training for product security teams.</h3>
-          <p>
-            Explore training on product security requirements and the work
-            behind compliance.
-          </p>
-          <a className="text-link" href={live + '/training'}>
-            Explore training <ArrowRight size={16} />
-          </a>
-        </div>
-        <div>
-          <div className="eyebrow blue">BUILD WITH US</div>
-          <h3>Careers at DestroSolutions.</h3>
-          <p>Help protect the connected systems the world depends on.</p>
-          <a className="text-link" href={live + '/careers'}>
-            Explore opportunities <ArrowRight size={16} />
-          </a>
-        </div>
-      </section>
+        <Pillars />
+      </Section>
+      <CTA />
     </>
   );
 }
-function NotFound() {
+function Industries() {
   return (
-    <section className="container page-intro">
-      <div className="eyebrow blue">404 / PAGE NOT FOUND</div>
-      <h1>Let’s get you back on track.</h1>
-      <p>
-        This page isn’t available. Explore the platform or return to the
-        homepage.
-      </p>
-      <div className="actions">
-        <a href={sitePath('/')} className="button">
-          Return home <ArrowRight size={18} />
-        </a>
-      </div>
-    </section>
+    <>
+      <PageHero
+        kicker="INDUSTRIES"
+        title="Physical systems. Distinct security realities."
+        description="From connected vehicles to intelligent machines, product context changes what a security decision needs to consider."
+      />
+      <Section kicker="YOUR OPERATING ENVIRONMENT" title="Find your industry.">
+        <IndustryCards />
+      </Section>
+      <IndustryCompare industries={industries} />
+      <CTA />
+    </>
   );
 }
-export const routeInfo: Record<string, [string, string]> = {
-  '/': [
-    'Product security for a connected world',
-    'Connect threat intelligence, product context and AI-assisted response to protect connected products and physical AI.',
-  ],
-  '/product': [
-    'Product Security OS',
-    'Explore the DestroSolutions platform: product intelligence, threat intelligence sharing and coordinated security response.',
-  ],
-  '/features': [
-    'Platform capabilities',
-    'Connect component visibility, threat intelligence and response automation in a shared product security workflow.',
-  ],
-  '/solutions': [
-    'Industry solutions',
-    'Product security for automotive, aviation, railway, maritime, physical AI and critical infrastructure.',
-  ],
-  '/use-cases': [
-    'Product security use cases',
-    'Explore vulnerability management, supplier coordination, PSIRT response and security evidence workflows.',
-  ],
-  '/contact': [
-    'Contact and book a demo',
-    'Contact the DestroSolutions team to arrange a platform walkthrough for your products and security priorities.',
-  ],
-  ...Object.fromEntries(
-    Object.entries(sectorDetails).map(([slug, d]) => [
-      '/solutions/' + slug,
-      [d.headline, d.context],
-    ]),
-  ),
-};
-export default function App({
-  path = typeof window === 'undefined' ? '/' : window.location.pathname,
-}: {
-  path?: string;
-}) {
-  path = path.replace(/\/$/, '') || '/';
-  if (path === '/') return <Home />;
-  const body =
-    path === '/product' ? (
-      <ProductPage />
-    ) : path === '/features' ? (
-      <FeaturesPage />
-    ) : path === '/solutions' ? (
-      <SolutionsPage />
-    ) : path === '/use-cases' ? (
-      <UseCasesPage />
-    ) : path === '/contact' ? (
-      <ContactPage />
-    ) : path.startsWith('/solutions/') ? (
-      <SectorPage slug={path.split('/')[2]} />
-    ) : (
-      <NotFound />
+function Industry({ slug }: { slug: string }) {
+  const i = industries.find((i) => i.slug === slug)!;
+  return (
+    <>
+      <PageHero
+        kicker={'INDUSTRIES / ' + i.name.toUpperCase()}
+        title={
+          slug === 'automotive'
+            ? 'Security for the Software-Defined Vehicle.'
+            : slug === 'physical-ai'
+              ? 'Securing Machines That Can Sense, Decide, and Act.'
+              : i.name + ' security, in product context.'
+        }
+        description={i.description}
+      >
+        <LinkButton
+          href={
+            '/contact?industry=' +
+            encodeURIComponent(
+              i.name === 'Energy & Infrastructure' ? 'Energy' : i.name,
+            )
+          }
+        >
+          Discuss your environment
+        </LinkButton>
+        <LinkButton href="/industries" secondary>
+          All industries
+        </LinkButton>
+      </PageHero>
+      <Section
+        kicker="THE ENGINEERING CHALLENGE"
+        title={i.requirement}
+        description={i.capability}
+      >
+        <div className="editorial-grid">
+          {i.priorities.map((p, n) => (
+            <article key={p}>
+              <Eyebrow>0{n + 1} / SECURITY PRIORITY</Eyebrow>
+              <h3>{p}</h3>
+              <p>
+                {
+                  [
+                    'Establish the relevant product boundaries and the evidence available to your team.',
+                    'Bring product, supplier and operating context into the investigation.',
+                    'Assign the next decision to the right engineering or operations owner.',
+                  ][n]
+                }
+              </p>
+            </article>
+          ))}
+        </div>
+      </Section>
+      {slug === 'automotive' ? (
+        <AutomotiveSection />
+      ) : (
+        <Section
+          kicker="LIFECYCLE VIEW"
+          title="Connect engineering to operations."
+        >
+          <Flow
+            items={
+              slug === 'physical-ai' || slug === 'robotics'
+                ? ['Sense', 'Understand', 'Decide', 'Act', 'Learn']
+                : [
+                    'Define the product',
+                    'Map dependencies',
+                    'Assess exposure',
+                    'Review response',
+                    'Maintain evidence',
+                  ]
+            }
+          />
+        </Section>
+      )}
+      <Section
+        kicker="ASSURANCE CONTEXT"
+        title="Make requirements part of the conversation."
+        description="Frameworks and requirements depend on the product, jurisdiction and engagement. These references do not imply certification or guaranteed compliance."
+      >
+        <div className="framework-row">
+          {i.frameworks.map((f) => (
+            <span key={f}>{f}</span>
+          ))}
+        </div>
+      </Section>
+      <Section
+        kicker="PLATFORM APPLICATION"
+        title="Know the product. Connect the signals."
+      >
+        <Pillars />
+      </Section>
+      <CTA />
+    </>
+  );
+}
+function Technology() {
+  return (
+    <>
+      <PageHero
+        kicker="TECHNOLOGY"
+        title="Intelligence across every layer."
+        description="Connect data, engineering context and controlled automation. A conceptual map of the technology domains behind product security."
+      />
+      <Section
+        kicker="TECHNOLOGY MAP"
+        title="The connections create the context."
+      >
+        <div className="technology-map">
+          <div className="technology-center">
+            <Cpu size={42} />
+            <h3>
+              PRODUCT
+              <br />
+              SECURITY
+              <br />
+              INTELLIGENCE
+            </h3>
+            <span>Conceptual architecture</span>
+          </div>
+          <div className="technology-grid">
+            {technologies.map(([n, d], i) => (
+              <article key={n}>
+                <span className="mono">0{i + 1}</span>
+                <h3>{n}</h3>
+                <p>{d}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </Section>
+      <Section
+        kicker="ARCHITECTURE PRINCIPLES"
+        title="Open context. Clear control."
+        description="Exchange structured intelligence, retain product relationships and keep operational decisions within defined permissions."
+      >
+        <PlatformArchitecture />
+      </Section>
+      <Section
+        kicker="CONTROLLED AUTOMATION"
+        title="Build review into the workflow."
+      >
+        <AgentWorkflow />
+      </Section>
+      <CTA />
+    </>
+  );
+}
+function Training() {
+  return (
+    <>
+      <PageHero
+        kicker="TRAINING"
+        title="Build the understanding behind better engineering."
+        description="Discuss focused professional learning for automotive, industrial and product security teams. Match the topic to your team’s responsibilities and engineering context."
+      >
+        <LinkButton href="mailto:training@destrosolutions.com">
+          Discuss team training
+        </LinkButton>
+      </PageHero>
+      <Section
+        kicker="PROFESSIONAL LEARNING AREAS"
+        title="From standards to engineering conversations."
+        description="Enquire about topic availability and a suitable format. Course scope, delivery mode and practical activities are confirmed with your team; no accreditation or certification is implied."
+      >
+        <div className="training-grid">
+          {courses.map(([name, audience, learn, outcome]) => (
+            <article key={name}>
+              <GraduationCap size={25} strokeWidth={1.3} />
+              <h3>{name}</h3>
+              <dl>
+                <dt>WHO IT IS FOR</dt>
+                <dd>{audience}</dd>
+                <dt>LEARNING FOCUS</dt>
+                <dd>{learn}</dd>
+                <dt>PROPOSED PRACTICAL OUTCOME</dt>
+                <dd>{outcome}</dd>
+                <dt>FORMAT</dt>
+                <dd>
+                  Discuss team needs, delivery mode and availability on enquiry.
+                </dd>
+              </dl>
+              <a
+                className="text-link"
+                href={
+                  'mailto:training@destrosolutions.com?subject=' +
+                  encodeURIComponent('Training enquiry: ' + name)
+                }
+              >
+                Enquire about this topic <ArrowUpRight size={16} />
+              </a>
+            </article>
+          ))}
+        </div>
+      </Section>
+      <Section
+        kicker="PLAN YOUR LEARNING"
+        title="A focused brief makes training relevant."
+      >
+        <Flow
+          items={[
+            'Share your team context',
+            'Choose a learning area',
+            'Confirm scope & format',
+            'Agree practical outcomes',
+          ]}
+        />
+      </Section>
+      <CTA />
+    </>
+  );
+}
+function ArticleCards() {
+  return (
+    <div className="article-grid">
+      {articles.map((a, i) => (
+        <article key={a.slug}>
+          <div className="article-art" aria-hidden="true">
+            <span>0{i + 1}</span>
+            {i === 0 ? (
+              <Layers3 size={54} strokeWidth={0.8} />
+            ) : i === 1 ? (
+              <Network size={54} strokeWidth={0.8} />
+            ) : (
+              <Cpu size={54} strokeWidth={0.8} />
+            )}
+          </div>
+          <Eyebrow>{a.category}</Eyebrow>
+          <h3>
+            <a href={sitePath('/insights/' + a.slug)}>{a.title}</a>
+          </h3>
+          <p>{a.intro}</p>
+          <a className="text-link" href={sitePath('/insights/' + a.slug)}>
+            Read perspective <ArrowUpRight size={16} />
+          </a>
+        </article>
+      ))}
+    </div>
+  );
+}
+function Insights() {
+  return (
+    <>
+      <PageHero
+        kicker="INSIGHTS"
+        title="A clearer view of product security."
+        description="Engineering perspectives on product context, responsible automation and intelligent physical systems."
+      />
+      <Section
+        kicker="PERSPECTIVES"
+        title="Ideas for your next technical discussion."
+      >
+        <ArticleCards />
+      </Section>
+      <Section
+        kicker="EXPLORE THE WORKFLOW"
+        title="Put the concepts in context."
+        description="Follow four demonstration scenarios from a security challenge to a reviewable next step."
+      >
+        <LinkButton href="/use-cases">
+          Explore demonstration scenarios
+        </LinkButton>
+      </Section>
+      <CTA />
+    </>
+  );
+}
+function Article({ slug }: { slug: string }) {
+  const a = articles.find((a) => a.slug === slug)!;
+  return (
+    <>
+      <PageHero kicker={a.category} title={a.title} description={a.intro} />
+      <article className="container reading-content">
+        <p className="fineprint">
+          Engineering perspective · General educational content
+        </p>
+        {a.sections.map(([title, body]) => (
+          <section key={title}>
+            <h2>{title}</h2>
+            <p>{body}</p>
+          </section>
+        ))}
+        <a className="text-link" href={sitePath('/insights')}>
+          All insights <ArrowRight size={16} />
+        </a>
+      </article>
+      <CTA />
+    </>
+  );
+}
+function UseCases() {
+  return (
+    <>
+      <PageHero
+        kicker="DEMONSTRATION SCENARIOS"
+        title="Follow the evidence to the next decision."
+        description="Four fictional scenarios show how product context can guide investigation and controlled response. These are not customer case studies or measured results."
+      />
+      <div className="container scenario-nav">
+        {scenarios.map((s) => (
+          <a href={'#' + s.id} key={s.id}>
+            {s.name}
+            <ArrowRight size={14} />
+          </a>
+        ))}
+      </div>
+      {scenarios.map((s, i) => (
+        <Section
+          key={s.id}
+          id={s.id}
+          kicker={'0' + (i + 1) + ' / DEMONSTRATION SCENARIO'}
+          title={s.name}
+          description={s.challenge}
+          className={i % 2 ? 'surface-section' : ''}
+        >
+          <div className="scenario-steps">
+            {[
+              ['Challenge', s.challenge],
+              ['Detection', s.detection],
+              ['AI analysis', s.analysis],
+              ['Response', s.response],
+              ['Illustrative outcome', s.outcome],
+            ].map(([t, d], n) => (
+              <article key={t}>
+                <span className="mono">0{n + 1}</span>
+                <h3>{t}</h3>
+                <p>{d}</p>
+              </article>
+            ))}
+          </div>
+        </Section>
+      ))}
+      <CTA />
+    </>
+  );
+}
+function Company() {
+  return (
+    <>
+      <PageHero
+        kicker="COMPANY"
+        title="Engineering Security for the Next Generation of Intelligent Products."
+        description="DestroSolutions brings together product intelligence, threat intelligence and AI-assisted security workflows for connected products and physical systems."
+      >
+        <LinkButton href="/contact">Start a conversation</LinkButton>
+      </PageHero>
+      <Section
+        kicker="OUR DIRECTION"
+        title="Understand the product. Improve the decision."
+      >
+        <div className="company-story">
+          <div>
+            <Eyebrow>MISSION</Eyebrow>
+            <h3>Connect intelligence to the products it protects.</h3>
+            <p>
+              Our focus is the relationship between a product, its software and
+              suppliers, and the threats that matter in its operating
+              environment.
+            </p>
+          </div>
+          <div>
+            <Eyebrow>VISION</Eyebrow>
+            <h3>Security that keeps pace with intelligent systems.</h3>
+            <p>
+              As physical products become software platforms, security teams
+              need context that spans engineering and operations.
+            </p>
+          </div>
+        </div>
+      </Section>
+      <Section
+        kicker="TECHNOLOGY & INDUSTRY"
+        title="Where software meets the physical world."
+        description="Automotive systems, connected devices and intelligent machines bring multidisciplinary security challenges. DestroSolutions approaches them through product context and connected intelligence."
+      >
+        <Pillars />
+      </Section>
+      <Section
+        kicker="A CONNECTED PERSPECTIVE"
+        title="Local contact. Global engineering context."
+      >
+        <div className="contact-panel">
+          <Globe size={36} />
+          <div>
+            <h3>{contact.location}</h3>
+            <p>
+              Connected products and supplier ecosystems cross borders. Discuss
+              your operating environment, engineering requirements and
+              collaboration needs with the team.
+            </p>
+          </div>
+          <LinkButton href="/contact" secondary>
+            Contact us
+          </LinkButton>
+        </div>
+      </Section>
+      <Section
+        kicker="CAREERS"
+        title="Build the Security Layer for the Physical World."
+      >
+        <p className="section-intro">
+          Interested in cybersecurity, AI or connected-product engineering?
+          Introduce your experience and interests.
+        </p>
+        <LinkButton href="/careers">Explore talent opportunities</LinkButton>
+      </Section>
+      <CTA />
+    </>
+  );
+}
+function Careers() {
+  return (
+    <>
+      <PageHero
+        kicker="CAREERS / TALENT CONNECTIONS"
+        title="Build the Security Layer for the Physical World."
+        description="Bring curiosity about software, intelligence and physical systems. Introduce yourself to DestroSolutions and share the kind of engineering work you want to pursue."
+      >
+        <LinkButton href="mailto:careers@destrosolutions.com">
+          Introduce yourself
+        </LinkButton>
+      </PageHero>
+      <Section
+        kicker="ENGINEERING DISCIPLINES"
+        title="Where your experience could contribute."
+        description="This is a talent invitation, not a list of confirmed vacancies. Contact the team to discuss current opportunities."
+      >
+        <div className="career-list">
+          {[
+            'Cybersecurity Engineer',
+            'AI Engineer',
+            'Automotive Security Engineer',
+            'Embedded Engineer',
+            'Cloud Engineer',
+            'DevSecOps Engineer',
+            'Security Researcher',
+          ].map((r, i) => (
+            <div key={r}>
+              <span className="mono">0{i + 1}</span>
+              <h3>{r}</h3>
+              <span>Talent enquiry</span>
+              <a
+                href={
+                  'mailto:careers@destrosolutions.com?subject=' +
+                  encodeURIComponent('Talent enquiry: ' + r)
+                }
+                aria-label={'Enquire about ' + r}
+              >
+                <ArrowUpRight size={22} />
+              </a>
+            </div>
+          ))}
+        </div>
+      </Section>
+    </>
+  );
+}
+function Contact() {
+  return (
+    <>
+      <PageHero
+        kicker="CONTACT"
+        title="Bring your product. Let’s explore its security."
+        description="Tell us what you build, how it operates and where you need better visibility. We’ll use that context to shape the conversation."
+      />
+      <div className="container contact-methods">
+        <a href={'mailto:' + contact.email}>
+          <Eyebrow>EMAIL</Eyebrow>
+          <h2>{contact.email}</h2>
+          <ArrowUpRight size={20} />
+        </a>
+        <a href="tel:+919398793452">
+          <Eyebrow>PHONE</Eyebrow>
+          <h2>{contact.phone}</h2>
+          <ArrowUpRight size={20} />
+        </a>
+        <div>
+          <Eyebrow>LOCATION</Eyebrow>
+          <h2>{contact.location}</h2>
+        </div>
+      </div>
+      <EnquiryBuilder />
+    </>
+  );
+}
+function Legal({ path }: { path: string }) {
+  const privacy = path === '/privacy',
+    terms = path === '/terms';
+  return (
+    <>
+      <PageHero
+        kicker="WEBSITE INFORMATION"
+        title={
+          privacy
+            ? 'Privacy'
+            : terms
+              ? 'Website terms'
+              : 'Imprint & company contact'
+        }
+        description={
+          privacy
+            ? 'Information about enquiries and technical data on this website.'
+            : terms
+              ? 'The scope of website information and demonstration content.'
+              : 'Verified contact details and a route for legal information requests.'
+        }
+      />
+      <div className="container reading-content">
+        {privacy ? (
+          <>
+            <h2>Enquiries stay under your control.</h2>
+            <p>
+              The enquiry builder prepares a message in your browser. It does
+              not submit a form to DestroSolutions or save your draft on a
+              server. Opening an email draft transfers the message to your
+              chosen email application; sending it is your decision.
+            </p>
+            <h2>Hosting and external services</h2>
+            <p>
+              This website is hosted on GitHub Pages. The hosting provider may
+              process technical request information to operate the service.
+              External links, including LinkedIn and email applications, are
+              governed by their providers’ policies. This website does not add
+              analytics trackers or advertising cookies.
+            </p>
+            <h2>Questions about personal information</h2>
+            <p>
+              Contact DestroSolutions about information you have sent by email,
+              including access, correction or deletion requests. This page
+              describes this website’s behavior; consult the{' '}
+              <a href="https://www.destrosolutions.com/privacy">
+                official privacy information
+              </a>{' '}
+              for the company’s wider services.
+            </p>
+          </>
+        ) : terms ? (
+          <>
+            <h2>Information and demonstrations</h2>
+            <p>
+              Website material explains product security concepts and areas for
+              discussion. Dashboards, risk scores, agent responsibilities and
+              scenarios labeled as demonstrations are fictional examples. They
+              are not production monitoring, customer results or commitments to
+              specific functionality.
+            </p>
+            <h2>Engagement scope</h2>
+            <p>
+              Availability, integrations, training, delivery and commercial
+              terms must be agreed directly with DestroSolutions. References to
+              standards or engineering practices do not establish certification
+              or compliance.
+            </p>
+            <h2>Further terms</h2>
+            <p>
+              Refer to the{' '}
+              <a href="https://www.destrosolutions.com/terms">
+                official company terms
+              </a>{' '}
+              and, where relevant, the{' '}
+              <a href="https://www.destrosolutions.com/refund-policy">
+                refund policy
+              </a>
+              . A specific signed agreement governs a commercial engagement.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2>DestroSolutions</h2>
+            <p>
+              {contact.location}
+              <br />
+              Phone: <a href="tel:+919398793452">{contact.phone}</a>
+              <br />
+              Email: <a href={'mailto:' + contact.email}>{contact.email}</a>
+            </p>
+            <h2>Legal information requests</h2>
+            <p>
+              For the registered legal entity, full registered address,
+              registration or tax identifiers, and the responsible legal
+              contact, request the current details directly from
+              DestroSolutions. These particulars are not published here because
+              they have not been verified.
+            </p>
+            <p>
+              This contact page is not a representation that all
+              jurisdiction-specific statutory disclosure requirements have been
+              fulfilled.
+            </p>
+          </>
+        )}
+        <p>
+          <a className="text-link" href={'mailto:' + contact.email}>
+            Contact DestroSolutions <ArrowUpRight size={15} />
+          </a>
+        </p>
+      </div>
+    </>
+  );
+}
+export default function App({ path = '/' }: { path?: string }) {
+  let content;
+  if (path === '/') content = <Home />;
+  else if (path === '/product' || path === '/features') content = <Product />;
+  else if (path === '/solutions') content = <Solutions />;
+  else if (path === '/industries') content = <Industries />;
+  else if (path.startsWith('/solutions/capabilities/') && routeInfo[path])
+    content = <SolutionDetail slug={path.split('/').pop()!} />;
+  else if (path.startsWith('/solutions/') && routeInfo[path])
+    content = <Industry slug={path.split('/').pop()!} />;
+  else if (path === '/technology') content = <Technology />;
+  else if (path === '/training') content = <Training />;
+  else if (path === '/insights') content = <Insights />;
+  else if (path.startsWith('/insights/') && routeInfo[path])
+    content = <Article slug={path.split('/').pop()!} />;
+  else if (path === '/company') content = <Company />;
+  else if (path === '/careers') content = <Careers />;
+  else if (path === '/contact') content = <Contact />;
+  else if (path === '/use-cases') content = <UseCases />;
+  else if (['/privacy', '/terms', '/imprint'].includes(path))
+    content = <Legal path={path} />;
+  else
+    content = (
+      <PageHero
+        kicker="PAGE NOT FOUND"
+        title="Let’s get you back on track."
+        description="This page is unavailable. Explore the platform or return to the homepage."
+      >
+        <LinkButton href="/">Back to home</LinkButton>
+      </PageHero>
     );
   return (
     <>
-      <a href="#main" className="skip-link">
+      <a className="skip-link" href="#main">
         Skip to content
       </a>
       <Header path={path} />
-      <main id="main">{body}</main>
+      <main id="main">{content}</main>
       <Footer />
+      <Motion />
     </>
   );
 }

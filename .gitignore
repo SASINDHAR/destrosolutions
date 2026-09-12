@@ -42,3 +42,5 @@ next-env.d.ts
 *.tar.gz
 *.tsbuildinfo
 .github-publish/
+.qa-tools/
+qa-output/

@@ -1,33 +1,56 @@
-# DestroSolutions website redesign
+# DestroSolutions
 
-A responsive, statically rendered React website with 15 pages: homepage, product, capabilities, industry overview, nine industry pages, use cases and contact. Includes a dedicated 404 page.
+The DestroSolutions GitHub Pages website: https://sasindhar.github.io/destrosolutions/
 
-## Local development
+An enterprise product-security website built with React, TypeScript, Vite, Tailwind and accessible Base UI / Shadcn primitives. Forty-one prerendered pages cover the platform, ten solution application areas, thirteen industries, technology, training, insights, company, careers, demonstration scenarios, contact and website information. The original fifteen routes are preserved. This repository does not change the separate destrosolutions.com hosting.
 
-- `npm install --ignore-scripts` installs the supplied starter dependencies on Windows ARM, where the unused Cloudflare workerd dependency is unsupported.
-- `npm run dev` starts Vite.
-- `npm run build` type-checks, bundles and prerenders all pages into `out`.
-- `npm run start` previews the production output.
+## Development
 
-The generated starter's dependency set is retained. The website itself is static and does not need the Cloudflare Worker runtime. Vite may need normal subprocess permissions on Windows.
+Use Node 24 and the checked-in package lock.
 
-## Content and integrations
+```sh
+npm install --ignore-scripts
+npm run dev
+npm run build
+npm run start
+```
 
-Content, industry terminology, imagery, email and phone destinations are based on the public destrosolutions.com site. Training, articles, careers, team information, policies and the existing enquiry form link to that site. They have not been migrated. Demo requests open the visitor's email application; no form submission or scheduling backend is simulated.
+`--ignore-scripts` avoids the retained but unused Cloudflare workerd install hook, which does not support Windows ARM. The website is static and does not use that runtime. Builds run TypeScript, Vite and server-side prerendering to `out/`.
 
-## Review deployment and production migration
+For a production-equivalent build set `SITE_BASE=/destrosolutions/` before building and verifying. PowerShell: `$env:SITE_BASE='/destrosolutions/'`. GitHub Actions derives the base from Pages configuration, installs locked dependencies, verifies the site and deploys `out/` on pushes to `main`.
 
-This is a separate review website. It does not change destrosolutions.com. The preview deliberately emits `noindex, nofollow` and disallows crawling to avoid duplicating the current website. Canonical URLs point to the intended original-domain paths. Existing social preview imagery is preserved.
+## Architecture
 
-Before replacing the original website, obtain its source and hosting access, merge this design with its existing content and integrations, preserve existing routes and redirects, confirm business copy, then remove preview indexing restrictions in `scripts/prerender.mjs`. Keep current training/booking, application, contact and analytics integrations working during the migration.
+- `app/content.ts`: company contact, navigation, industry/solution/training/scenario content and route metadata.
+- `app/experience.tsx`: navigation, footer, page framing, architecture diagrams, product demo, threat record, workflow and SOC components.
+- `app/page.tsx`: route selection and page compositions.
+- `app/globals.css`: shared tokens, responsive layouts, dark theme and reduced-motion behavior.
+- `app/site-search.tsx`: searchable command palette and keyboard shortcut.
+- `app/industry-compare.tsx`: industry comparison, stacked on small screens.
+- `app/enquiry-builder.tsx` and `app/enquiry-message.ts`: reviewable email drafts with validated URL context.
+- `scripts/prerender.mjs`: HTML, per-page metadata, Organization/WebSite schema, canonical URLs, sitemap, robots and 404.
 
-No customer logos, testimonials, certifications, performance figures or live security data have been invented.
+Architecture nodes, product selection, agent workflow, SOC filters and review markers are interactive demonstrations. They do not connect to production systems, perform security actions or send information. The enquiry builder keeps its draft in page memory and opens the visitor's email client; sending is an explicit visitor action.
 
-## Refined design
-The second version introduces a navy, white and cyan visual system, responsive product architecture diagrams, an accessible four-stage platform explorer on the homepage and product page, and current-page navigation. The explorer explains workflows using conceptual inputs and outputs; it does not simulate live security data.
+## Content boundaries
 
-## Full-page refinement
-All 15 routes use a consistent editorial system with page navigation, clearer capability flows, industry-specific security landscapes, question/workflow/result use cases, and direct contact options. The deployment verifies internal links and in-page anchors before publishing. External training, article, career, team and policy pages remain on the original company website.
+The site uses the company's public product-intelligence, threat-intelligence and AI-workflow context. Numbers, product records and scenarios in demo interfaces are explicitly fictional. Training topics are enquiries with scope/format to confirm, not accredited course promises. Careers are talent invitations, not invented vacancies. Standards are engineering context, not certification or compliance claims. Registered legal entity, address and identifiers must be supplied and verified before treating the Imprint page as complete statutory disclosure.
 
-## Advanced exploration tools
-Quick search covers all 15 pages and supports Ctrl/Cmd K. Industry comparison shows product context, priorities and frameworks side by side. The enquiry builder prepares a reviewable email, can copy its text, and accepts industry or priority context from relevant page links. No backend submission is simulated and enquiry data is not stored.
+## Verification
+
+```sh
+node scripts/verify.mjs
+node --experimental-strip-types scripts/test-enquiry.mjs
+```
+
+Verification checks all prerendered routes, internal resources and anchor destinations, one primary heading, indexing, canonicals, structured data, sitemap and enquiry encoding.
+
+Optional local browser tools are isolated from production dependencies:
+
+```sh
+npm install --prefix .qa-tools --no-save --package-lock=false --ignore-scripts playwright lighthouse @axe-core/playwright
+node scripts/browser-qa.mjs
+node scripts/lighthouse-qa.mjs
+```
+
+The browser script uses installed Chrome, defaults to the dev server on port 5173, and accepts `QA_URL` for a production preview. It checks 1440, 1280, 1024, 768 and 390 pixel widths, all routes with axe, UI state changes, enquiry context and keyboard controls. The Lighthouse script uses the production preview on port 4173 and a Windows Chrome path; adapt that path for another OS. Reports and screenshots go to ignored `qa-output/`. Automated checks supplement visual and keyboard review; they do not establish complete WCAG conformance or legal compliance.

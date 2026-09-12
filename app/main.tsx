@@ -2,13 +2,12 @@ import { currentPath } from './site-path';
 import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App, { routeInfo } from './page';
+import { pageTitle } from './content';
 import './globals.css';
-import './pages.css';
-import './advanced.css';
 const path = currentPath();
 const info = routeInfo[path];
 if (info) {
-  document.title = info[0] + ' | DestroSolutions';
+  document.title = pageTitle(path);
   document
     .querySelector('meta[name="description"]')
     ?.setAttribute('content', info[1]);

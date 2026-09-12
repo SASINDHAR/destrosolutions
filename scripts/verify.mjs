@@ -24,6 +24,27 @@ for (const [route, html] of rendered) {
   );
   assert.ok(!html.includes('Untitled site'), `${route}: no starter metadata`);
   assert.ok(html.includes('id="main"'), `${route}: skip-link destination`);
+  assert.ok(
+    html.includes('name="robots" content="index, follow"'),
+    `${route}: indexing allowed`,
+  );
+  assert.ok(
+    html.includes(
+      'rel="canonical" href="https://sasindhar.github.io/destrosolutions/',
+    ),
+    `${route}: production canonical`,
+  );
+  const schema = JSON.parse(
+    html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1],
+  );
+  assert.ok(
+    schema['@graph'].some((item) => item['@type'] === 'Organization'),
+    `${route}: Organization schema`,
+  );
+  assert.ok(
+    schema['@graph'].some((item) => item['@type'] === 'WebSite'),
+    `${route}: WebSite schema`,
+  );
   for (const [, url] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     if ((url.startsWith('/') && !url.startsWith('//')) || url.startsWith('#')) {
       const [raw, fragment] = url.split('#');
@@ -51,6 +72,17 @@ for (const [route, html] of rendered) {
   );
 }
 assert.ok((await readFile('out/404.html', 'utf8')).includes('PAGE NOT FOUND'));
+assert.equal(
+  (await readFile('out/sitemap.xml', 'utf8')).match(/<loc>/g).length,
+  routes.length,
+);
+assert.ok(
+  rendered
+    .get('/')
+    .includes(
+      '<title>DestroSolutions | Product Security for the Physical World</title>',
+    ),
+);
 console.log(
   `Verified ${routes.length} routes, ${checked} local links/assets, ${anchors} anchor destinations, headings and 404 output.`,
 );
