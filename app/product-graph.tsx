@@ -31,6 +31,17 @@ export default function ProductGraph() {
       a === selected ? [b] : b === selected ? [a] : [],
     ),
   ]);
+  const impactPath =
+    selected === 'vuln'
+      ? ['vuln', 'library', 'software', 'ecu', 'vehicle']
+      : [];
+  impactPath.forEach((id) => related.add(id));
+  const impactedEdge = (a: string, b: string) =>
+    impactPath.some(
+      (id, i) =>
+        (id === a && impactPath[i + 1] === b) ||
+        (id === b && impactPath[i + 1] === a),
+    );
   const move = (x: number, y: number) =>
     setPan((p) => ({
       x: Math.max(-350, Math.min(350, p.x + x)),
@@ -48,7 +59,10 @@ export default function ProductGraph() {
       <div className="graph-toolbar">
         <div>
           <span className="mono">VG-042 / DEPENDENCY MAP</span>
-          <p>Select a node to trace its direct relationships.</p>
+          <p>
+            Select a node, or choose the vulnerability to trace potential
+            product impact.
+          </p>
         </div>
         <div className="graph-controls" aria-label="Graph viewport controls">
           <button
@@ -138,7 +152,11 @@ export default function ProductGraph() {
                   d={`M${start.x} ${start.y} C${(start.x + end.x) / 2} ${start.y},${(start.x + end.x) / 2} ${end.y},${end.x} ${end.y}`}
                   className={
                     'graph-edge' +
-                    (a === selected || b === selected ? ' is-related' : '')
+                    (impactedEdge(a, b)
+                      ? ' is-impact'
+                      : a === selected || b === selected
+                        ? ' is-related'
+                        : '')
                   }
                 />
               );
@@ -225,6 +243,13 @@ export default function ProductGraph() {
             ))}
         </div>
       </div>
+      {impactPath.length > 0 && (
+        <p className="graph-impact-note">
+          Potential impact follows the dependency path. A matching component
+          does not prove exploitability; exposure and remediation require
+          verification.
+        </p>
+      )}
       <div className="graph-detail" aria-live="polite">
         <div>
           <span className="mono">
@@ -234,12 +259,20 @@ export default function ProductGraph() {
           <p>{node.detail}</p>
         </div>
         <div>
-          <span className="mono">DIRECT RELATIONSHIPS</span>
+          <span className="mono">
+            {impactPath.length
+              ? 'POTENTIAL IMPACT PATH'
+              : 'DIRECT RELATIONSHIPS'}
+          </span>
           <p>
-            {productNodes
-              .filter((n) => n.id !== selected && related.has(n.id))
-              .map((n) => n.name)
-              .join(' · ')}
+            {impactPath.length
+              ? impactPath
+                  .map((id) => productNodes.find((n) => n.id === id)!.name)
+                  .join(' → ')
+              : productNodes
+                  .filter((n) => n.id !== selected && related.has(n.id))
+                  .map((n) => n.name)
+                  .join(' · ')}
           </p>
         </div>
       </div>

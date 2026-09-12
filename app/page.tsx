@@ -1,3 +1,4 @@
+import LearningMap from './learning-map';
 import ExperienceNav from './experience-nav';
 import {
   AttackSurface,
@@ -186,7 +187,7 @@ function Home() {
       <AutomotiveSection />
       <Section
         kicker="07 / PHYSICAL AI"
-        title="Securing Machines That Can Sense, Decide, and Act."
+        title="When software can act in the physical world, security becomes physical."
         description="Robotics, autonomous systems, industrial AI and edge devices bring software decisions into the physical world."
       >
         <PhysicalAI />
@@ -647,10 +648,18 @@ function Training() {
         </LinkButton>
       </PageHero>
       <Section
-        kicker="PROFESSIONAL LEARNING AREAS"
-        title="From standards to engineering conversations."
-        description="Enquire about topic availability and a suitable format. Course scope, delivery mode and practical activities are confirmed with your team; no accreditation or certification is implied."
+        kicker="VERIFIED PROGRAMME / EU CYBER RESILIENCE ACT"
+        title="From product requirements to reviewable evidence."
+        description="The official DestroSolutions training page currently presents an EU CRA programme. Explore its published learning areas below. Booking dates, pricing and terms are maintained on the official site."
       >
+        <a
+          className="text-link section-link"
+          href="https://www.destrosolutions.com/training"
+        >
+          View the official programme and booking details{' '}
+          <ArrowUpRight size={17} />
+        </a>
+        <LearningMap />
         <div className="training-grid">
           {courses.map(([name, audience, learn, outcome]) => (
             <article key={name}>
@@ -661,7 +670,7 @@ function Training() {
                 <dd>{audience}</dd>
                 <dt>LEARNING FOCUS</dt>
                 <dd>{learn}</dd>
-                <dt>PROPOSED PRACTICAL OUTCOME</dt>
+                <dt>PUBLISHED LEARNING OUTCOME</dt>
                 <dd>{outcome}</dd>
                 <dt>FORMAT</dt>
                 <dd>

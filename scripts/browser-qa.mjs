@@ -113,7 +113,9 @@ for (const route of process.env.QA_SKIP_A11Y ? [] : Object.keys(routeInfo)) {
 }
 await page.goto(base + '/');
 
-await page.getByRole('button', { name: 'Physical World', exact: true }).click();
+await page
+  .getByRole('button', { name: 'Physical Product', exact: true })
+  .click();
 assert.match(
   await page.locator('.hero-node-context').innerText(),
   /Establish the physical system/,
@@ -121,13 +123,20 @@ assert.match(
 report.interactions.push('Hero node and relationship selection');
 await page
   .getByRole('group', { name: 'Product Security OS layers' })
-  .getByRole('button', { name: /AI Correlation/ })
+  .getByRole('button', { name: /Context Engine/ })
   .click();
 assert.match(
   await page.locator('.variant-os .layer-detail').innerText(),
   /Bring the evidence/,
 );
-report.interactions.push('Six-layer OS explorer');
+assert.equal(
+  await page
+    .getByRole('group', { name: 'Product Security OS layers' })
+    .getByRole('button')
+    .count(),
+  7,
+);
+report.interactions.push('Seven-layer OS explorer');
 await page
   .getByRole('group', { name: 'Attack surfaces' })
   .getByRole('button', { name: /Mobile App/ })
@@ -184,20 +193,43 @@ await page.getByRole('dialog').waitFor({ state: 'hidden' });
 report.interactions.push('Simulated feed and accessible threat drill-down');
 await page
   .getByRole('group', { name: 'Investigation agents' })
-  .getByRole('button', { name: /Supplier Risk Agent/ })
+  .getByRole('button', { name: /Supplier Risk Analyst/ })
   .click();
 assert.match(
   await page.locator('.agent-evidence').innerText(),
   /Supplier guidance is missing/,
 );
 report.interactions.push('Agent evidence and recommendation selection');
-for (let i = 0; i < 5; i++)
-  await page.getByRole('button', { name: 'Next step', exact: true }).click();
+const workflow = page.getByRole('group', { name: 'Security workflow stages' });
+assert.equal(await workflow.getByRole('button').count(), 13);
+for (const button of await workflow.getByRole('button').all()) {
+  await button.click();
+  assert.ok(
+    (await page.locator('.remediation-detail dl dd').allTextContents()).every(
+      (t) => t.length > 20,
+    ),
+  );
+}
+await workflow.getByRole('button', { name: /11 Remediation/ }).click();
 assert.match(
-  await page.locator('.workflow-status').innerText(),
+  await page.locator('.workflow-approval').innerText(),
   /Human approval required/,
 );
-report.interactions.push('Controlled response approval boundary');
+await page
+  .getByRole('button', { name: 'Record illustrative approval' })
+  .click();
+assert.match(
+  await page.locator('.workflow-approval').innerText(),
+  /No production action/,
+);
+await page.getByRole('button', { name: 'Next stage', exact: true }).click();
+assert.match(
+  await page.locator('.remediation-detail').innerText(),
+  /Verification/,
+);
+report.interactions.push(
+  '13-stage evidence workflow, approval boundary and verification',
+);
 await page.getByLabel('Explore a physical system').selectOption('Vehicles');
 await page
   .getByRole('group', { name: 'Physical AI stages' })
@@ -227,7 +259,18 @@ assert.equal(
     .count(),
   3,
 );
-report.interactions.push('SOC filters and panel switching');
+await page.getByRole('tab', { name: 'Incident Timeline', exact: true }).click();
+await page
+  .getByRole('tabpanel', { name: 'Incident Timeline', exact: true })
+  .waitFor();
+assert.equal(
+  await page
+    .getByRole('tabpanel', { name: 'Incident Timeline', exact: true })
+    .locator('article')
+    .count(),
+  7,
+);
+report.interactions.push('SOC filters, eight panels and incident timeline');
 await page.getByRole('button', { name: 'Advance demo status' }).click();
 assert.match(
   await page.locator('.command-status').innerText(),

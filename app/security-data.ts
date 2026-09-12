@@ -10,7 +10,7 @@ export type SystemLayer = {
 export const osLayers: SystemLayer[] = [
   {
     id: 'data',
-    name: 'Product Data',
+    name: 'Product Intelligence',
     summary: 'Start with the product, not an isolated alert.',
     input: 'Inventory · SBOM · configurations',
     evidence: 'Products linked to versions, components and suppliers.',
@@ -27,8 +27,18 @@ export const osLayers: SystemLayer[] = [
     next: 'Correlate the signal with product-specific evidence.',
   },
   {
+    id: 'supplier-intelligence',
+    name: 'Supplier Intelligence',
+    summary: 'Connect supplier evidence to the affected product.',
+    input: 'Supplier notices · component provenance · ownership',
+    evidence: 'Example Embedded Co. supplies Link library to gateway VG-042.',
+    concern:
+      'Missing supplier guidance is an unresolved question, not proof of safety.',
+    next: 'Carry provenance and affected-version guidance into the context engine.',
+  },
+  {
     id: 'correlation',
-    name: 'AI Correlation',
+    name: 'Context Engine',
     summary: 'Bring the evidence into one reviewable context.',
     input: 'Product matches · dependency paths · signal sources',
     evidence: 'Related components and supporting sources organized for review.',
@@ -206,11 +216,11 @@ export const lifecycleLayers: SystemLayer[] = [
     next: 'Review the outcome with the responsible team.',
   },
   {
-    id: 'improve',
-    name: 'Improve',
-    summary: 'Return the learning to engineering.',
+    id: 'verify',
+    name: 'Verify',
+    summary: 'Verify the outcome before closing the loop.',
     input: 'Review outcomes and unresolved questions',
-    evidence: 'Updated context and investigation guidance.',
+    evidence: 'Retest results, release identity and residual-risk review.',
     concern: 'Assumptions need periodic reassessment.',
     next: 'Inform the next design and development cycle.',
   },
@@ -463,7 +473,7 @@ export const threats: DemoThreat[] = [
 ];
 export const agentProfiles = [
   {
-    name: 'Threat Analyst Agent',
+    name: 'Threat Analyst',
     input: 'DEMO-VULN-001 and example advisory context',
     context: 'Separate confirmed signals from unverified assumptions.',
     evidence: [
@@ -475,7 +485,7 @@ export const agentProfiles = [
     recommendation: 'Request product exposure assessment.',
   },
   {
-    name: 'Product Security Agent',
+    name: 'Product Security Analyst',
     input: 'Vehicle Gateway / firmware 4.2.1',
     context: 'Map the product and its operating boundaries.',
     evidence: [
@@ -487,7 +497,7 @@ export const agentProfiles = [
     recommendation: 'Confirm the affected variants with the product team.',
   },
   {
-    name: 'Vulnerability Agent',
+    name: 'Vulnerability Analyst',
     input: 'Example component version and DEMO-VULN-001',
     context: 'Review a version match without assuming exploitability.',
     evidence: [
@@ -499,7 +509,7 @@ export const agentProfiles = [
     recommendation: 'Validate exposure before choosing remediation.',
   },
   {
-    name: 'Supplier Risk Agent',
+    name: 'Supplier Risk Analyst',
     input: 'Example Embedded Co. and shared library ownership',
     context: 'Identify evidence gaps and accountable owners.',
     evidence: [
@@ -511,7 +521,7 @@ export const agentProfiles = [
     recommendation: 'Request affected-version and remediation information.',
   },
   {
-    name: 'Incident Response Agent',
+    name: 'Incident Response Analyst',
     input: 'Product context, evidence and response policy',
     context: 'Prepare an action within defined permission boundaries.',
     evidence: [
@@ -550,6 +560,11 @@ export const physicalStages = [
     'Preserve human controls and recovery paths.',
   ],
 ];
+physicalStages.push([
+  'Learn',
+  'Operating outcomes inform the next system revision.',
+  'Review feedback provenance, model changes and regression evidence.',
+]);
 export const supplierStages = [
   [
     'OEM',

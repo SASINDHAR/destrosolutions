@@ -26,6 +26,7 @@ import {
   agentProfiles,
   type DemoThreat,
 } from './security-data';
+import RemediationWorkflow from './remediation-workflow';
 import { SimulationLabel } from './system-explorer';
 
 function useDemoPlayback(
@@ -277,6 +278,11 @@ function ThreatDetail({ threat }: { threat: DemoThreat }) {
             ['Affected product', threat.product],
             ['Component', threat.component],
             ['Severity', threat.severity + ' · illustrative'],
+            [
+              'Supplier',
+              assets.find((a) => a.name === threat.product)?.supplier ||
+                'Evidence pending',
+            ],
             ['Exposure', threat.exposure],
             ['AI analysis summary', threat.analysis],
             ['Recommended action', threat.action],
@@ -462,67 +468,33 @@ export function AgentInvestigation() {
   );
 }
 export function AgentWorkflow() {
-  const [step, setStep] = useState(0);
-  const steps = [
-    'Signal detected',
-    'AI investigates',
-    'AI correlates evidence',
-    'AI evaluates product impact',
-    'AI recommends action',
-    'Human approval required',
-    'Security improvement review',
-  ];
   return (
     <div className="investigation-console">
       <SimulationLabel title="AGENTIC INVESTIGATION / DEMONSTRATION" />
       <AgentInvestigation />
-      <div className="investigation-sequence">
-        <div className="workflow-heading">
-          <div>
-            <span className="mono">CONTROLLED RESPONSE PATH</span>
-            <h3>Make the handoff explicit.</h3>
-          </div>
-          <button
-            className="button secondary"
-            onClick={() => setStep((s) => (s === 6 ? 0 : s + 1))}
-          >
-            {step === 6 ? <RotateCcw size={16} /> : <Play size={16} />}{' '}
-            {step === 6 ? 'Restart workflow' : 'Next step'}
-          </button>
-        </div>
-        <ol className="agent-steps">
-          {steps.map((s, i) => (
-            <li
-              key={s}
-              className={i === step ? 'active' : i < step ? 'complete' : ''}
-            >
-              <span>
-                {i < step ? (
-                  <Check size={15} />
-                ) : (
-                  String(i + 1).padStart(2, '0')
-                )}
-              </span>
-              <strong>{s}</strong>
-              {i === 5 && <LockKeyhole size={16} />}
-            </li>
-          ))}
-        </ol>
-        <output className="workflow-status">
-          Step {step + 1} of 7: {steps[step]}.
-          {step === 5
-            ? ' An authorized reviewer must approve any operational action.'
-            : ''}
-        </output>
-      </div>
+      <RemediationWorkflow />
     </div>
   );
 }
 
 const socPanels = [
   {
+    id: 'timeline',
+    name: 'Incident Timeline',
+    title: 'From detection to verified closure — example chronology.',
+    rows: [
+      ['09:14', 'Discover', 'DEMO-VULN-001 received'],
+      ['09:16', 'Correlate', 'VG-042 component path matched'],
+      ['09:18', 'Assess', 'Exposure evidence reviewed'],
+      ['09:20', 'Prioritize', 'Engineering owner assigned'],
+      ['10:00', 'Remediate', 'Illustrative approved staging update'],
+      ['10:30', 'Verify', 'Example regression and exposure checks'],
+      ['10:45', 'Evidence', 'Demo closure record retained'],
+    ],
+  },
+  {
     id: 'feed',
-    name: 'Threat Feed',
+    name: 'Threat Intelligence',
     title: 'Signals with product context.',
     rows: threats.map((t) => [t.id, t.product, t.severity + ' · ' + t.name]),
   },
@@ -600,7 +572,7 @@ export function SecurityOperations() {
         : current.rows;
   return (
     <div className="soc-command" ref={ref}>
-      <SimulationLabel title="AI SECURITY COMMAND / DEMO ENVIRONMENT" />
+      <SimulationLabel title="SIMULATED SECURITY OPERATIONS" />
       <div className="command-center-top">
         <div>
           <span className="mono">PRODUCT SECURITY OPERATIONS</span>
@@ -672,6 +644,12 @@ export function SecurityOperations() {
                   </label>
                 )}
               </div>
+              {panelRows(p).length === 0 && (
+                <output className="lab-empty">
+                  No signals match this risk level. Select All to restore the
+                  view.
+                </output>
+              )}
               <div className="soc-data-rows">
                 {panelRows(p).map(([id, name, detail]) => (
                   <article key={id}>

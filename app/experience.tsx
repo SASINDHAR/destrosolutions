@@ -263,16 +263,17 @@ export function CTA() {
       <div className="container cta-inner">
         <div>
           <Eyebrow>START WITH YOUR PRODUCT</Eyebrow>
-          <h2>
-            Make security part of
-            <br />
-            what you build.
-          </h2>
+          <h2>Ready to secure your next generation of products?</h2>
           <p>
             Bring your architecture. Let’s discuss the intelligence it needs.
           </p>
         </div>
-        <LinkButton href="/contact">Talk to DestroSolutions</LinkButton>
+        <div className="cta-actions">
+          <LinkButton href="/contact">Talk to DestroSolutions</LinkButton>
+          <LinkButton href="/product" secondary>
+            Explore Product Security OS
+          </LinkButton>
+        </div>
       </div>
     </section>
   );

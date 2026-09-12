@@ -6,6 +6,7 @@ const sections = [
   ['product-intelligence', 'Products'],
   ['threat-intelligence', 'Threats'],
   ['agentic-ai', 'Agents'],
+  ['security-workflow', 'Workflow'],
   ['operations', 'Operations'],
 ];
 export default function ExperienceNav() {

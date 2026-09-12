@@ -15,16 +15,18 @@ npm run build
 npm run start
 ```
 
-`--ignore-scripts` avoids the retained but unused Cloudflare workerd install hook, which does not support Windows ARM. The website is static and does not use that runtime. Builds run TypeScript, Vite and server-side prerendering to `out/`.
+The website is static. Unused server-component and Cloudflare runtimes have been removed; `--ignore-scripts` is retained as a conservative install setting. Builds run TypeScript, Vite and server-side prerendering to `out/`.
 
-For a production-equivalent build set `SITE_BASE=/destrosolutions/` before building and verifying. PowerShell: `$env:SITE_BASE='/destrosolutions/'`. GitHub Actions derives the base from Pages configuration, installs locked dependencies, verifies the site and deploys `out/` on pushes to `main`.
+For a production-equivalent build set `SITE_BASE=/destrosolutions/` before building, previewing and verifying. PowerShell: `$env:SITE_BASE='/destrosolutions/'`. GitHub Actions derives the base from Pages configuration, installs locked dependencies, verifies the site and deploys `out/` on pushes to `main`.
 
 ## Architecture
 
 - `app/content.ts`: company contact, navigation, industry/solution/training/scenario content and route metadata.
 - `app/experience.tsx`: navigation, footer, page framing, architecture diagrams, product demo, threat record, workflow and SOC components.
-- `app/system-explorer.tsx`: interactive Security Grid hero, six-layer OS architecture, attack surfaces, scroll storytelling, SDV, Physical AI, lifecycle and supplier views.
-- `app/intelligence-console.tsx`: searchable inventory, replayable threat feed, evidence-based agent demonstrations and seven SOC panels.
+- `app/system-explorer.tsx`: interactive Security Grid hero, seven-layer OS architecture, attack surfaces, scroll storytelling, SDV, Physical AI, lifecycle and supplier views.
+- `app/intelligence-console.tsx`: searchable inventory, replayable threat feed, evidence-based agent demonstrations and eight SOC panels.
+- `app/remediation-workflow.tsx`: thirteen selectable investigation stages with evidence, approval boundaries, verification and closure.
+- `app/learning-map.tsx`: five engineering learning contexts alongside the official training programme.
 - `app/security-data.ts`: typed fictional product, threat and architecture data shared by the interfaces.
 - `app/product-graph.tsx` and `app/product-graph-loader.tsx`: keyboard-accessible SVG relationship graph with zoom/pan and a native mobile alternative; loaded as a separate bundle near the viewport.
 - `app/experience-nav.tsx`: current-section navigation with a compact mobile selector.
@@ -40,7 +42,7 @@ Architecture nodes, product selection, agent workflow, SOC filters and review ma
 
 ## Content boundaries
 
-The site uses the company's public product-intelligence, threat-intelligence and AI-workflow context. Numbers, product records and scenarios in demo interfaces are explicitly fictional. Training topics are enquiries with scope/format to confirm, not accredited course promises. Careers are talent invitations, not invented vacancies. Standards are engineering context, not certification or compliance claims. Registered legal entity, address and identifiers must be supplied and verified before treating the Imprint page as complete statutory disclosure.
+The site uses the company's public product-intelligence, threat-intelligence and AI-workflow context. Numbers, product records and scenarios in demo interfaces are explicitly fictional. Training content reflects the official EU CRA programme, with live booking information linked to the official site. The interactive learning map describes related engineering disciplines without promising separate courses or qualifications. Careers are talent invitations, not invented vacancies. Standards are engineering context, not certification or compliance claims. Registered legal entity, address and identifiers must be supplied and verified before treating the Imprint page as complete statutory disclosure.
 
 ## Verification
 

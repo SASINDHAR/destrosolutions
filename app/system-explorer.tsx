@@ -38,18 +38,18 @@ export function SimulationLabel({
 }
 const heroNodes = [
   {
-    name: 'Physical World',
+    name: 'Physical Product',
     x: 20,
     y: 13,
     icon: Box,
     detail: 'Establish the physical system and its operating boundary.',
   },
   {
-    name: 'Connected Products',
+    name: 'Sensors',
     x: 58,
     y: 15,
     icon: Radio,
-    detail: 'Connect devices, product variants and supplier relationships.',
+    detail: 'Review sensor integrity and how physical inputs reach software.',
   },
   {
     name: 'Software',
@@ -59,35 +59,45 @@ const heroNodes = [
     detail: 'Trace components, firmware versions and dependencies.',
   },
   {
-    name: 'Cloud',
+    name: 'Connectivity',
     x: 73,
     y: 39,
     icon: Cloud,
     detail: 'Map the remote services and APIs that a product relies on.',
   },
   {
-    name: 'Threat Intelligence',
+    name: 'Cloud',
     x: 21,
     y: 65,
     icon: Network,
-    detail: 'Match a simulated signal to the affected product context.',
+    detail: 'Map product dependencies on remote services and cloud identities.',
   },
   {
-    name: 'AI Reasoning',
+    name: 'Threat Intelligence',
     x: 73,
     y: 65,
-    icon: ScanLine,
-    detail: 'Organize evidence into concise, auditable analysis summaries.',
+    icon: Network,
+    detail:
+      'Match a threat signal to the affected component and product context.',
   },
   {
-    name: 'Security Operations',
-    x: 47,
+    name: 'AI Correlation',
+    x: 21,
     y: 89,
-    icon: ShieldCheck,
-    detail: 'Prepare a controlled response for authorized human review.',
+    icon: ScanLine,
+    detail: 'Organize connected evidence into a concise, auditable assessment.',
   },
 ];
+heroNodes.push({
+  name: 'Security Operations',
+  x: 73,
+  y: 89,
+  icon: ShieldCheck,
+  detail: 'Prepare a controlled response for authorized human review.',
+});
 const heroEdges = [
+  [2, 3],
+  [3, 4],
   [0, 1],
   [0, 2],
   [1, 2],
@@ -97,9 +107,10 @@ const heroEdges = [
   [4, 5],
   [4, 6],
   [5, 6],
+  [6, 7],
 ];
 export function SecurityGridHero() {
-  const [selected, setSelected] = useState(4);
+  const [selected, setSelected] = useState(5);
   const [paused, setPaused] = useState(false);
   const selectedNode = heroNodes[selected];
   return (
@@ -337,8 +348,26 @@ export function AttackSurface() {
               <dd>{surface[1]}</dd>
             </div>
             <div>
-              <dt>SECURITY CONTEXT</dt>
+              <dt>PRODUCT CONTEXT</dt>
               <dd>{surface[2]}</dd>
+            </div>
+            <div>
+              <dt>SECURITY RESPONSE</dt>
+              <dd>
+                {
+                  [
+                    'Validate inputs and retain safe fallback behavior.',
+                    'Confirm firmware exposure and test a scoped update.',
+                    'Review authorization and validate access restrictions.',
+                    'Review app identity controls and shared dependencies.',
+                    'Verify service permissions and affected product connections.',
+                    'Approve release integrity, rollback and recovery checks.',
+                    'Trace affected versions and obtain remediation evidence.',
+                    'Assign an evidence owner and confirm affected scope.',
+                    'Test segmentation and permitted communication paths.',
+                  ][active]
+                }
+              </dd>
             </div>
           </dl>
           <p className="fineprint">
@@ -377,6 +406,7 @@ export function PhysicalAI() {
               'Factories',
               'Industrial Machines',
               'Connected Products',
+              'Autonomous Systems',
             ].map((s) => (
               <option key={s}>{s}</option>
             ))}
