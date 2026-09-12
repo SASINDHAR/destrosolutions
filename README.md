@@ -25,3 +25,6 @@ No customer logos, testimonials, certifications, performance figures or live sec
 
 ## Refined design
 The second version introduces a navy, white and cyan visual system, responsive product architecture diagrams, an accessible four-stage platform explorer on the homepage and product page, and current-page navigation. The explorer explains workflows using conceptual inputs and outputs; it does not simulate live security data.
+
+## Full-page refinement
+All 15 routes use a consistent editorial system with page navigation, clearer capability flows, industry-specific security landscapes, question/workflow/result use cases, and direct contact options. The deployment verifies internal links and in-page anchors before publishing. External training, article, career, team and policy pages remain on the original company website.

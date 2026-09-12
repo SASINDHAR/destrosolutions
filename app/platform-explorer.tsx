@@ -1,10 +1,143 @@
 import { sitePath } from './site-path';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Layers3, ScanLine, Network, ShieldCheck, ArrowRight, FileCheck2, Cpu } from 'lucide-react';
+import {
+  Layers3,
+  ScanLine,
+  Network,
+  ShieldCheck,
+  ArrowRight,
+  FileCheck2,
+  Cpu,
+} from 'lucide-react';
 const stages = [
- {name:'Ingest',icon:Layers3,title:'Start with a connected product picture.',copy:'Bring product and supplier information together with threat intelligence. A useful decision starts with knowing what is in your environment.',input:['Software bills of materials','Supplier component information','Internal and external threat feeds'],output:'Product and component context',detail:'A shared foundation for investigation across product versions and suppliers.'},
- {name:'Analyze',icon:ScanLine,title:'Find the signals that belong to your products.',copy:'Connect vulnerabilities and threat indicators to your components and configurations, giving analysts the context to investigate relevance.',input:['Product and component context','Vulnerability intelligence','Threat indicators'],output:'Contextualized security findings',detail:'Trace findings back to the affected component and the intelligence behind them.'},
- {name:'Prioritize',icon:Network,title:'Put exposure and impact before alert volume.',copy:'Assess findings against asset criticality, deployment context and operational impact so teams can decide where attention is needed.',input:['Contextualized findings','Product exposure','Operational criticality'],output:'A focused investigation queue',detail:'A clear basis for prioritization that engineering and security teams can discuss.'},
- {name:'Respond',icon:ShieldCheck,title:'Coordinate action. Preserve the reasoning.',copy:'Bring investigation, advisories and response workflows together. Keep people responsible for safety-critical decisions and preserve the record.',input:['Prioritized findings','Response playbooks','Human review'],output:'Coordinated response and evidence',detail:'Follow the action from case creation through review, communication and closure.'}
+  {
+    name: 'Ingest',
+    icon: Layers3,
+    title: 'Start with a connected product picture.',
+    copy: 'Bring product and supplier information together with threat intelligence. A useful decision starts with knowing what is in your environment.',
+    input: [
+      'Software bills of materials',
+      'Supplier component information',
+      'Internal and external threat feeds',
+    ],
+    output: 'Product and component context',
+    detail:
+      'A shared foundation for investigation across product versions and suppliers.',
+  },
+  {
+    name: 'Analyze',
+    icon: ScanLine,
+    title: 'Find the signals that belong to your products.',
+    copy: 'Connect vulnerabilities and threat indicators to your components and configurations, giving analysts the context to investigate relevance.',
+    input: [
+      'Product and component context',
+      'Vulnerability intelligence',
+      'Threat indicators',
+    ],
+    output: 'Contextualized security findings',
+    detail:
+      'Trace findings back to the affected component and the intelligence behind them.',
+  },
+  {
+    name: 'Prioritize',
+    icon: Network,
+    title: 'Put exposure and impact before alert volume.',
+    copy: 'Assess findings against asset criticality, deployment context and operational impact so teams can decide where attention is needed.',
+    input: [
+      'Contextualized findings',
+      'Product exposure',
+      'Operational criticality',
+    ],
+    output: 'A focused investigation queue',
+    detail:
+      'A clear basis for prioritization that engineering and security teams can discuss.',
+  },
+  {
+    name: 'Respond',
+    icon: ShieldCheck,
+    title: 'Coordinate action. Preserve the reasoning.',
+    copy: 'Bring investigation, advisories and response workflows together. Keep people responsible for safety-critical decisions and preserve the record.',
+    input: ['Prioritized findings', 'Response playbooks', 'Human review'],
+    output: 'Coordinated response and evidence',
+    detail:
+      'Follow the action from case creation through review, communication and closure.',
+  },
 ];
-export default function PlatformExplorer(){return <section className="explorer-section container" id="intelligence-loop"><div className="section-heading"><div><div className="eyebrow blue">THE INTELLIGENCE LOOP</div><h2>Every signal has a source.<br/><span>Every action has context.</span></h2></div><p className="section-intro">Explore how product information moves through the platform, from ingestion to a coordinated response.</p></div><Tabs defaultValue="Ingest" className="explorer"><TabsList className="explorer-tabs" aria-label="Explore the intelligence workflow">{stages.map((s,i)=><TabsTrigger value={s.name} key={s.name} className="explorer-tab"><span className="tab-index">0{i+1}</span><s.icon size={19}/>{s.name}<ArrowRight size={16}/></TabsTrigger>)}</TabsList>{stages.map(s=><TabsContent key={s.name} value={s.name} className="explorer-panel"><div className="explorer-copy"><span className="overline">{s.name.toUpperCase()} / WORKFLOW OVERVIEW</span><h3>{s.title}</h3><p>{s.copy}</p><a className="text-link" href={sitePath('/contact')}>Explore this with your team <ArrowRight size={17}/></a></div><div className="explorer-diagram"><div className="diagram-label">INPUTS</div><div className="input-stack">{s.input.map(t=><div key={t}><Layers3 size={16}/>{t}</div>)}</div><div className="diagram-connector"><ArrowRight size={18}/></div><div className="diagram-result"><s.icon size={25}/><div><span>OUTPUT</span><strong>{s.output}</strong></div></div><p className="diagram-detail"><FileCheck2 size={17}/>{s.detail}</p></div></TabsContent>)}</Tabs><div className="explorer-footnote"><Cpu size={16}/> AI-assisted workflows, with human oversight for critical decisions.</div></section>}
+export default function PlatformExplorer() {
+  return (
+    <section className="explorer-section container" id="intelligence-loop">
+      <div className="section-heading">
+        <div>
+          <div className="eyebrow blue">THE INTELLIGENCE LOOP</div>
+          <h2>
+            Every signal has a source.
+            <br />
+            <span>Every action has context.</span>
+          </h2>
+        </div>
+        <p className="section-intro">
+          Explore how product information moves through the platform, from
+          ingestion to a coordinated response.
+        </p>
+      </div>
+      <Tabs defaultValue="Ingest" className="explorer">
+        <TabsList
+          className="explorer-tabs"
+          aria-label="Explore the intelligence workflow"
+        >
+          {stages.map((s, i) => (
+            <TabsTrigger value={s.name} key={s.name} className="explorer-tab">
+              <span className="tab-index">0{i + 1}</span>
+              <s.icon size={19} />
+              {s.name}
+              <ArrowRight size={16} />
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {stages.map((s) => (
+          <TabsContent key={s.name} value={s.name} className="explorer-panel">
+            <div className="explorer-copy">
+              <span className="overline">
+                {s.name.toUpperCase()} / WORKFLOW OVERVIEW
+              </span>
+              <h3>{s.title}</h3>
+              <p>{s.copy}</p>
+              <a className="text-link" href={sitePath('/contact')}>
+                Explore this with your team <ArrowRight size={17} />
+              </a>
+            </div>
+            <div className="explorer-diagram">
+              <div className="diagram-label">INPUTS</div>
+              <div className="input-stack">
+                {s.input.map((t) => (
+                  <div key={t}>
+                    <Layers3 size={16} />
+                    {t}
+                  </div>
+                ))}
+              </div>
+              <div className="diagram-connector">
+                <ArrowRight size={18} />
+              </div>
+              <div className="diagram-result">
+                <s.icon size={25} />
+                <div>
+                  <span>OUTPUT</span>
+                  <strong>{s.output}</strong>
+                </div>
+              </div>
+              <p className="diagram-detail">
+                <FileCheck2 size={17} />
+                {s.detail}
+              </p>
+            </div>
+          </TabsContent>
+        ))}
+      </Tabs>
+      <div className="explorer-footnote">
+        <Cpu size={16} /> AI-assisted workflows, with human oversight for
+        critical decisions.
+      </div>
+    </section>
+  );
+}
