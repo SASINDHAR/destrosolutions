@@ -1,3 +1,12 @@
+import ExperienceNav from './experience-nav';
+import {
+  AttackSurface,
+  ScrollStory,
+  PhysicalAI,
+  SystemArchitecture,
+  SupplierGraph,
+} from './system-explorer';
+import ProductGraph from './product-graph-loader';
 import {
   ArrowUpRight,
   ArrowRight,
@@ -63,12 +72,14 @@ function Home() {
               </span>
             </h1>
             <p>
-              DestroSolutions unifies product intelligence, threat intelligence,
-              and agentic AI to secure connected products, software-defined
-              vehicles, and intelligent physical systems.
+              Understand your products. Detect emerging threats. Connect
+              intelligence with context. Respond with AI-powered security
+              operations.
             </p>
             <div className="hero-actions">
-              <LinkButton href="/product">Explore the Platform</LinkButton>
+              <LinkButton href="/product">
+                Explore Product Security OS
+              </LinkButton>
               <LinkButton href="/contact" secondary>
                 Talk to DestroSolutions
               </LinkButton>
@@ -102,22 +113,14 @@ function Home() {
           ))}
         </div>
       </div>
+      <ExperienceNav />
       <Section
+        id="context"
         kicker="01 / THE CHANGING ATTACK SURFACE"
         title="Modern Products Are Becoming Software Platforms."
         description="Embedded software, cloud APIs, mobile applications and AI now shape physical behavior. Every connection and supplier dependency expands the context a security team needs."
       >
-        <Flow
-          items={[
-            'Physical product',
-            'Connectivity',
-            'Software',
-            'Cloud',
-            'AI',
-            'Supply chain',
-            'Attack surface',
-          ]}
-        />
+        <ScrollStory />
         <div className="context-note">
           <span>
             <Radio size={22} /> Sensors & interfaces
@@ -135,6 +138,14 @@ function Home() {
         </div>
       </Section>
       <Section
+        id="attack-surfaces"
+        kicker="CONNECTED SYSTEMS / EXPOSED BOUNDARIES"
+        title="Every connection creates an attack surface."
+        description="Explore the interfaces, dependencies and trust boundaries around a physical product."
+      >
+        <AttackSurface />
+      </Section>
+      <Section
         id="platform"
         kicker="02 / THE DESTROSOLUTIONS PLATFORM"
         title="One Intelligence Layer for Product Security."
@@ -148,6 +159,7 @@ function Home() {
         </a>
       </Section>
       <Section
+        id="product-intelligence"
         kicker="03 / PRODUCT INTELLIGENCE"
         title="Understand Every Product Before Attackers Do."
         description="Bring SBOMs, hardware, software, versions, assets and configurations into a connected product view."
@@ -155,6 +167,7 @@ function Home() {
         <DashboardPreview />
       </Section>
       <Section
+        id="threat-intelligence"
         kicker="04 / THREAT INTELLIGENCE"
         title="Turn Global Threat Signals into Product-Specific Risk."
         description="A signal matters when you understand the product it could affect. Explore the path from external intelligence to contextual investigation."
@@ -163,6 +176,7 @@ function Home() {
         <ThreatFlow />
       </Section>
       <Section
+        id="agentic-ai"
         kicker="05 / AGENTIC AI"
         title="Security Operations That Think and Act."
         description="AI-assisted analysis can help teams move through evidence faster. Keep decisions reviewable, permissions explicit and people in control."
@@ -175,24 +189,7 @@ function Home() {
         title="Securing Machines That Can Sense, Decide, and Act."
         description="Robotics, autonomous systems, industrial AI and edge devices bring software decisions into the physical world."
       >
-        <div className="physical-layout">
-          <div className="physical-core">
-            <Cpu size={40} strokeWidth={1} />
-            <h3>
-              Intelligence meets
-              <br />
-              physical consequence.
-            </h3>
-            <p>
-              Understand the software, models and interfaces behind every
-              action.
-            </p>
-            <a className="text-link" href={sitePath('/solutions/physical-ai')}>
-              Explore Physical AI <ArrowUpRight size={16} />
-            </a>
-          </div>
-          <Flow items={['Sense', 'Understand', 'Decide', 'Act', 'Learn']} />
-        </div>
+        <PhysicalAI />
       </Section>
       <Section
         kicker="08 / INDUSTRIES"
@@ -202,6 +199,7 @@ function Home() {
         <IndustryCards compact />
       </Section>
       <Section
+        id="operations"
         kicker="09 / PRODUCT SECURITY OPERATIONS"
         title="Every signal needs a decision."
         description="Explore a fictional security operations environment. Filter signals and follow an evidence-led recommendation."
@@ -227,29 +225,7 @@ function AutomotiveSection() {
       description="Connect vehicle software, supplier dependencies and cloud services across engineering, release and in-service operations."
       className="automotive-section"
     >
-      <div className="vehicle-architecture">
-        <div className="vehicle-label">
-          <Car size={32} strokeWidth={1.3} />
-          <strong>
-            SOFTWARE-DEFINED
-            <br />
-            VEHICLE ARCHITECTURE
-          </strong>
-          <span>Conceptual system view</span>
-        </div>
-        <Flow
-          items={[
-            'Sensors',
-            'ECUs',
-            'Zonal architecture',
-            'Vehicle computer',
-            'Connectivity',
-            'Cloud',
-            'OTA',
-            'AI',
-          ]}
-        />
-      </div>
+      <SystemArchitecture variant="vehicle" />
       <div className="framework-row">
         {[
           'ISO/SAE 21434',
@@ -331,6 +307,14 @@ function Product() {
         className="surface-section"
       >
         <DashboardPreview />
+        <div className="product-graph-section">
+          <h3>Follow the digital product graph.</h3>
+          <p>
+            Trace the vehicle, software, library and supplier relationships
+            behind a simulated vulnerability.
+          </p>
+          <ProductGraph />
+        </div>
       </Section>
       <Section
         id="threat-intelligence"
@@ -354,6 +338,22 @@ function Product() {
         title="Keep the evidence close to the decision."
       >
         <SecurityOperations />
+      </Section>
+      <Section
+        id="lifecycle"
+        kicker="LIFECYCLE INTELLIGENCE"
+        title="Security follows the product."
+        description="Connect engineering evidence, threat intelligence, OTA review and response through the lifecycle."
+      >
+        <SystemArchitecture variant="lifecycle" />
+      </Section>
+      <Section
+        id="supplier-security"
+        kicker="SUPPLIER SECURITY"
+        title="A product is an ecosystem."
+        description="Follow a component through the supply chain and see where product evidence connects."
+      >
+        <SupplierGraph />
       </Section>
       <CTA />
     </>
@@ -551,6 +551,14 @@ function Industry({ slug }: { slug: string }) {
                   ]
             }
           />
+        </Section>
+      )}
+      {(slug === 'physical-ai' || slug === 'robotics') && (
+        <Section
+          kicker="PHYSICAL AI"
+          title="AI can sense. AI can decide. AI can act."
+        >
+          <PhysicalAI />
         </Section>
       )}
       <Section

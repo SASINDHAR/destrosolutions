@@ -12,9 +12,10 @@ const chrome = await launch({
 try {
   for (const [name, path] of [
     ['home', '/'],
+    ['product', '/product/'],
     ['contact', '/contact/'],
     ['training', '/training/'],
-  ]) {
+  ].filter(([name]) => !process.argv[2] || name === process.argv[2])) {
     const result = await lighthouse(
       'http://127.0.0.1:4173/destrosolutions' + path,
       {
