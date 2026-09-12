@@ -4,6 +4,7 @@ import { createRoot, hydrateRoot } from 'react-dom/client';
 import App, { routeInfo } from './page';
 import './globals.css';
 import './pages.css';
+import './advanced.css';
 const path = currentPath();
 const info = routeInfo[path];
 if (info) {

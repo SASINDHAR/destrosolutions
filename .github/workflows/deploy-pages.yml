@@ -24,7 +24,7 @@ jobs:
         uses: actions/configure-pages@v5
       - run: npm ci --ignore-scripts
       - name: Build website
-        run: npm run build && node scripts/verify.mjs
+        run: npm run build && node scripts/verify.mjs && node --experimental-strip-types scripts/test-enquiry.mjs
         env:
           SITE_BASE: ${{ steps.pages.outputs.base_path }}/
       - uses: actions/upload-pages-artifact@v4

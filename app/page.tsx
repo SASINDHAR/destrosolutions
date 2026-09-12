@@ -1,5 +1,8 @@
+import SiteSearch from './site-search';
+import IndustryCompare from './industry-compare';
+import EnquiryBuilder from './enquiry-builder';
 import { sitePath } from './site-path';
-('use client');
+
 import {
   ArrowUpRight,
   ArrowRight,
@@ -75,6 +78,7 @@ function Header({ path = '/' }: { path?: string }) {
         <a className="button small header-cta" href={sitePath('/contact')}>
           Book a demo <ArrowUpRight size={16} />
         </a>
+        <SiteSearch entries={Object.entries(routeInfo)} />
         <Sheet>
           <SheetTrigger className="mobile-menu" aria-label="Open navigation">
             <Menu />
@@ -607,6 +611,7 @@ function PageIntro({
     Solutions: [
       ['Transport & mobility', 'mobility'],
       ['Industrial & critical systems', 'critical-systems'],
+      ['Compare industries', 'compare-industries'],
     ],
     'Use cases': [
       ['Vulnerability management', 'vulnerability-management'],
@@ -615,6 +620,7 @@ function PageIntro({
       ['Security evidence', 'security-evidence'],
     ],
     Contact: [
+      ['Prepare an enquiry', 'prepare-enquiry'],
       ['Arrange a walkthrough', 'arrange-demo'],
       ['Contact the team', 'contact-team'],
     ],
@@ -799,7 +805,20 @@ function FeaturesPage() {
                       </li>
                     ))}
                   </ul>
-                  <a href={sitePath('/contact')} className="text-link">
+                  <a
+                    href={sitePath(
+                      '/contact?priority=' +
+                        encodeURIComponent(
+                          [
+                            'Product visibility',
+                            'Threat intelligence',
+                            'Response automation',
+                          ][i],
+                        ) +
+                        '#prepare-enquiry',
+                    )}
+                    className="text-link"
+                  >
                     Discuss your workflow <ArrowRight size={17} />
                   </a>
                 </div>
@@ -889,6 +908,15 @@ function SolutionsPage() {
           Explore use cases <ArrowRight size={17} />
         </a>
       </section>
+      <IndustryCompare
+        industries={[...sectors, ...extraSectors].map((s) => ({
+          slug: s.slug,
+          name: s.name,
+          description: s.desc,
+          priorities: sectorDetails[s.slug].items,
+          frameworks: sectorDetails[s.slug].standards,
+        }))}
+      />
       <CTA />
     </>
   );
@@ -944,7 +972,14 @@ function SectorPage({ slug }: { slug: string }) {
               </div>
               <h1>{d.headline}</h1>
               <p>{d.context}</p>
-              <a href={sitePath('/contact')} className="button">
+              <a
+                href={sitePath(
+                  '/contact?industry=' +
+                    encodeURIComponent(s.name) +
+                    '#prepare-enquiry',
+                )}
+                className="button"
+              >
                 Discuss {s.name.toLowerCase()} security <ArrowRight size={18} />
               </a>
             </div>
@@ -1173,6 +1208,7 @@ function ContactPage() {
         title="Your products. Your priorities. Let’s talk."
         description="Connect with the DestroSolutions team to explore your security challenges, product landscape and the workflows that matter to your organization."
       />
+      <EnquiryBuilder />
       <section
         className="container contact-layout contact-layout-v3"
         id="arrange-demo"

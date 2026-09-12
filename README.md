@@ -28,3 +28,6 @@ The second version introduces a navy, white and cyan visual system, responsive p
 
 ## Full-page refinement
 All 15 routes use a consistent editorial system with page navigation, clearer capability flows, industry-specific security landscapes, question/workflow/result use cases, and direct contact options. The deployment verifies internal links and in-page anchors before publishing. External training, article, career, team and policy pages remain on the original company website.
+
+## Advanced exploration tools
+Quick search covers all 15 pages and supports Ctrl/Cmd K. Industry comparison shows product context, priorities and frameworks side by side. The enquiry builder prepares a reviewable email, can copy its text, and accepts industry or priority context from relevant page links. No backend submission is simulated and enquiry data is not stored.
